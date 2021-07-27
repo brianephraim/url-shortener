@@ -1,13 +1,18 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import UrlShortenerScreen from './UrlShortenerScreen';
 
 const styles = StyleSheet.create({
-  text: {
-    marginTop: 50,
-    fontSize: 40,
+  safeAreaView: {
+    backgroundColor: '#666',
+    flex: 1,
   },
 });
 
-const AppEntry = () => <Text style={styles.text}>URL Shortener</Text>;
+const AppEntry = () => (
+  <SafeAreaView style={styles.safeAreaView}>
+    <UrlShortenerScreen />
+  </SafeAreaView>
+);
 
 export default AppEntry;

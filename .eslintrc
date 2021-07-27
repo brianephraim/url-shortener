@@ -3,6 +3,10 @@
   "plugins": ["babel", "react-native", "react-perf"],
   "parser": "babel-eslint",
   "rules": {
+    "react-native/no-unused-styles": 2,
+    "react-native/no-inline-styles": 2,
     "react/jsx-filename-extension": 0,
+    "arrow-body-style": 0,
+    "react/prop-types": 0
   }
 }
