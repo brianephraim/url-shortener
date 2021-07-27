@@ -1,12 +1,21 @@
 {
   "extends": ["airbnb", "prettier", "plugin:react-perf/recommended"],
-  "plugins": ["babel", "react-native", "react-perf"],
+  "plugins": ["babel", "react-native", "react-perf", "react-hooks"],
   "parser": "babel-eslint",
   "rules": {
     "react-native/no-unused-styles": 2,
     "react-native/no-inline-styles": 2,
     "react/jsx-filename-extension": 0,
+    "react-perf/jsx-no-new-function-as-prop": 0,
     "arrow-body-style": 0,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "env": {
+    "jest": true,
+    "browser": true,
+    "node": true,
+    "react-native/react-native": true
   }
 }
