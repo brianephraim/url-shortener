@@ -15,6 +15,7 @@ const dataFetchReducer = (state, action) => {
         ...state,
         isLoading: false,
         data: action.payload,
+        errorType: null,
         timestamp: Date.now(),
       };
     case 'FETCH_FAILURE':
@@ -31,6 +32,20 @@ const dataFetchReducer = (state, action) => {
       return {
         ...state,
         data: state.data.filter(({slug}) => slug !== action.slug),
+      };
+    case 'ADD_ITEM':
+      if (!state.data) {
+        return state;
+      }
+      return {
+        ...state,
+        data: [
+          ...state.data.filter(({slug}) => action.data.slug !== slug),
+          {
+            ...action.data,
+            added: Date.now(),
+          },
+        ],
       };
     default:
       throw new Error();
@@ -77,6 +92,13 @@ const useBellyApi = purpose => {
     dispatch({
       type: 'REMOVE_ITEM',
       slug,
+    });
+  }, []);
+
+  const addItem = useCallback(data => {
+    dispatch({
+      type: 'ADD_ITEM',
+      data,
     });
   }, []);
 
@@ -152,7 +174,7 @@ const useBellyApi = purpose => {
   }, [param, lastSubmitId, purpose]);
   const methodToReturn =
     purpose === 'history' ? removeItemBySlug : setParamWithTimestamp;
-  return [state, methodToReturn];
+  return [state, methodToReturn, addItem];
 };
 
 export default useBellyApi;

@@ -25,17 +25,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const ShortenedUrlItem = ({
-  shortUrl,
-  longUrl,
-  slug,
-  onRemove: removeBySlugFromLocal,
-}) => {
+const ShortenedUrlItem = ({shortUrl, longUrl, slug, removeItemBySlug}) => {
   const setSlugToRemoveRemote = useBellyApi('remove')[1];
   const onPressRemove = useCallback(async () => {
     await setSlugToRemoveRemote(slug);
-    removeBySlugFromLocal(slug);
-  }, [removeBySlugFromLocal, setSlugToRemoveRemote, slug]);
+    removeItemBySlug(slug);
+  }, [removeItemBySlug, setSlugToRemoveRemote, slug]);
   return (
     <View style={styles.allGeneratedUrlsItem} key={shortUrl}>
       <Text style={styles.allGeneratedUrlsShortUrl}>SHORT: {shortUrl}</Text>

@@ -9,6 +9,7 @@
     "react-perf/jsx-no-new-function-as-prop": 0,
     "arrow-body-style": 0,
     "react/prop-types": 0,
+    "no-unused-expressions": 0,
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   },

@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, View, Text, StyleSheet} from 'react-native';
 
+const ToastContext = React.createContext({asdf: 'qwer'});
+const {Provider} = ToastContext;
+export {ToastContext};
+
 const styles = StyleSheet.create({
   positioner: {
     position: 'absolute',
@@ -20,18 +24,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-const Toast = ({children, timestamp}) => {
+const emptyObj = {};
+const Toast = ({children}) => {
+  const [toastData, setToast] = useState(emptyObj);
+  const {content, timestamp} = toastData;
   const [animationStyle, setAnimationStyle] = useState(null);
   const [lastTimestamp, setLasttimestamp] = useState(null);
   if (!animationStyle) {
     setAnimationStyle([styles.positioner, {opacity: new Animated.Value(0)}]);
   }
-  let childrenToUse = children;
-  if (['string', 'number'].includes(typeof children)) {
-    childrenToUse = <Text style={styles.text}>{children}</Text>;
+  let toastContentToUse = content;
+  if (['string', 'number'].includes(typeof toastContentToUse)) {
+    toastContentToUse = <Text style={styles.text}>{toastContentToUse}</Text>;
   }
-
   useEffect(() => {
     setLasttimestamp(timestamp);
     if (!timestamp) {
@@ -53,16 +58,22 @@ const Toast = ({children, timestamp}) => {
     });
     return null;
   }, [timestamp, animationStyle]);
+  let hasToastElements = true;
   if (!lastTimestamp) {
-    return null;
+    hasToastElements = false;
   }
   if (!children) {
-    return null;
+    hasToastElements = false;
   }
   return (
-    <Animated.View style={animationStyle}>
-      <View style={styles.container}>{childrenToUse}</View>
-    </Animated.View>
+    <Provider value={setToast}>
+      {hasToastElements && (
+        <Animated.View style={animationStyle}>
+          <View style={styles.container}>{toastContentToUse}</View>
+        </Animated.View>
+      )}
+      {children}
+    </Provider>
   );
 };
 
