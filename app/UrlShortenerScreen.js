@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import useBellyApi from './useBelyApi';
 import Toast from './Toast';
+import UrlShortenerHistory from './UrlShortenerHistory';
 
 const bottomGoldenRatioHeightPercent = 61.8;
 const styles = StyleSheet.create({
@@ -65,28 +66,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mockBelyApiResponses = {
-  allGeneratedUrls: [
-    {
-      short_url: 'https://gb.com/elgoog',
-      slug: 'elgoog',
-      url: 'https://www.google.com',
-    },
-    {
-      short_url: 'https://gb.com/elppa',
-      slug: 'elppa',
-      url: 'https://www.apple.com',
-    },
-    {
-      short_url: 'https://gb.com/koobecaf',
-      slug: 'koobecaf',
-      url: 'https://www.facebook.com',
-    },
-  ],
-};
-
-const demoScroll = false;
-
 const DismissKeyboard = ({children, style}) => (
   <TouchableOpacity activeOpacity={1} style={style} onPress={Keyboard.dismiss}>
     {children}
@@ -98,7 +77,7 @@ const UrlShortenerScreen = () => {
   const [
     {data: newShortenedUrlData, isLoading, errorType, timestamp},
     setUrlToShorten,
-  ] = useBellyApi(inputText);
+  ] = useBellyApi('shorten');
   const onPressSubmitButton = useCallback(() => {
     setUrlToShorten(inputText);
   }, [setUrlToShorten, inputText]);
@@ -140,39 +119,17 @@ const UrlShortenerScreen = () => {
           style={styles.allGeneratedUrlsContainer}
           onStartShouldSetResponder={onStartShouldSetResponder}
         >
-          {[
-            ...(Object.keys(newShortenedUrlData).length
-              ? [newShortenedUrlData]
-              : []),
-            ...mockBelyApiResponses.allGeneratedUrls,
-          ].map(({short_url: shortUrl, url: longUrl}) => {
-            return (
-              <View style={styles.allGeneratedUrlsItem} key={shortUrl}>
-                <Text style={styles.allGeneratedUrlsShortUrl}>
-                  SHORT: {shortUrl}
-                </Text>
-                <Text style={styles.allGeneratedUrlsLongUrl}>
-                  LONG: {longUrl}
-                </Text>
-              </View>
-            );
-          })}
-          {
-            /* eslint-disable */
-            demoScroll &&
-              [1, 2, 3, 4, 5].map(item => (
-                <View
-                  key={`${item}`}
-                  style={{
-                    height: 100,
-                    width: 20,
-                    backgroundColor: 'red',
-                    margin: 3,
-                  }}
-                />
-              ))
-            /* eslint-enable */
-          }
+          {newShortenedUrlData.short_url && (
+            <View style={styles.allGeneratedUrlsItem}>
+              <Text style={styles.allGeneratedUrlsShortUrl}>
+                SHORT: {newShortenedUrlData.short_url}
+              </Text>
+              <Text style={styles.allGeneratedUrlsLongUrl}>
+                LONG: {newShortenedUrlData.url}
+              </Text>
+            </View>
+          )}
+          <UrlShortenerHistory />
         </View>
       </ScrollView>
     </DismissKeyboard>

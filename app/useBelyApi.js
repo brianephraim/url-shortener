@@ -24,6 +24,14 @@ const dataFetchReducer = (state, action) => {
         errorType: action.errorType,
         timestamp: Date.now(),
       };
+    case 'REMOVE_ITEM':
+      if (!state.data) {
+        return state;
+      }
+      return {
+        ...state,
+        data: state.data.filter(({slug}) => slug !== action.slug),
+      };
     default:
       throw new Error();
   }
@@ -34,55 +42,101 @@ function delay(time = 1000) {
 }
 
 const emptyObj = {};
+const emptyArray = [];
 let submitId = 0;
-const useBellyApi = () => {
-  const [urlToShorten, setUrlToShorten] = useState('');
+const purposeToFetchMethodMap = {
+  shorten: 'POST',
+  history: 'GET',
+  showSpecific: 'GET',
+  remove: 'DELETE',
+};
+const purposeToInitialDataMap = {
+  shorten: emptyObj,
+  history: emptyArray,
+  showSpecific: emptyObj,
+  remove: false,
+};
+const useBellyApi = purpose => {
+  const [param, setParam] = useState('');
   const [lastSubmitId, setSubmitId] = useState('');
+
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
     errorType: null,
-    data: emptyObj,
+    data: purposeToInitialDataMap[purpose],
   });
-  const setUrlToShortenWithTimestamp = useCallback(
-    (...args) => {
-      setUrlToShorten(...args);
+  const setParamWithTimestamp = useCallback(
+    async (...args) => {
+      setParam(...args);
       submitId += 1;
       setSubmitId(submitId);
     },
-    [setUrlToShorten]
+    [setParam]
   );
+  const removeItemBySlug = useCallback(slug => {
+    dispatch({
+      type: 'REMOVE_ITEM',
+      slug,
+    });
+  }, []);
+
   useEffect(() => {
-    if (!urlToShorten) {
+    const effectRequiresParam = ['shorten', 'showSpecifc', 'remove'].includes(
+      purpose
+    );
+    if (effectRequiresParam && !param) {
       return null;
     }
-    if (!isUrl(urlToShorten)) {
+    if (effectRequiresParam && !isUrl(param)) {
       return dispatch({type: 'FETCH_FAILURE', errorType: 'invalid'});
     }
-    console.log('SUBMIT', urlToShorten, lastSubmitId);
+    console.log(purpose, 'SUBMIT', param, lastSubmitId);
     let didCancel = false;
 
     const fetchData = async () => {
       dispatch({type: 'FETCH_INIT'});
       try {
-        const fetchPromise = fetch('https://api.bely.me/links', {
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        const method = purposeToFetchMethodMap[purpose];
+        const paramPath = param && method !== 'POST' ? `/${param}` : '';
+        const belyApiPath = 'https://api.bely.me/links';
+        const fetchUrl = `${belyApiPath}${paramPath}`;
+        console.log(purpose, 'fetchUrl', fetchUrl);
+        const fetchPromise = fetch(fetchUrl, {
+          method,
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             'GB-Access-Token': '8d1a453fe3d93b9f7eabbeed18645d8c',
           },
-          body: JSON.stringify({
-            url: urlToShorten,
-          }),
-        }).then(r => r.json());
-        const [result] = await Promise.all([fetchPromise, delay(2000)]);
-        console.log('result', result);
+          ...(method !== 'POST'
+            ? {}
+            : {
+                body: JSON.stringify({
+                  url: param,
+                }),
+              }),
+        }).then(r => (purpose === 'remove' ? r : r.json()));
+        const [result] = await Promise.all([fetchPromise, delay(0)]);
+        console.log(purpose, 'result', result);
         if (!didCancel) {
-          dispatch({type: 'FETCH_SUCCESS', payload: result});
+          if (purpose === 'remove') {
+            return dispatch(
+              result.status === 204
+                ? {
+                    type: 'FETCH_SUCCESS',
+                    payload: true,
+                  }
+                : {
+                    type: 'FETCH_ERROR',
+                    payload: false,
+                  }
+            );
+          }
+          return dispatch({type: 'FETCH_SUCCESS', payload: result});
         }
         return null;
       } catch (error) {
-        console.log('error', error);
+        console.log(purpose, 'error', error);
         if (didCancel) {
           return dispatch({type: 'FETCH_FAILURE', errorType: 'cancel'});
         }
@@ -95,9 +149,10 @@ const useBellyApi = () => {
     return () => {
       didCancel = true;
     };
-  }, [urlToShorten, lastSubmitId]);
-
-  return [state, setUrlToShortenWithTimestamp];
+  }, [param, lastSubmitId, purpose]);
+  const methodToReturn =
+    purpose === 'history' ? removeItemBySlug : setParamWithTimestamp;
+  return [state, methodToReturn];
 };
 
 export default useBellyApi;
