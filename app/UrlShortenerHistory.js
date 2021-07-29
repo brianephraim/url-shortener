@@ -6,24 +6,23 @@ import ShortenedUrlItem from './ShortenedUrlItem';
 const UrlShortenerHistory = () => {
   const {shortenedUrls, refreshShortenedUrl} = useBellyApi('history');
   useEffect(refreshShortenedUrl, [refreshShortenedUrl]);
-  if (!shortenedUrls.initialized) {
-    return <ActivityIndicator color="green" />;
-  }
   return (
     <>
       {shortenedUrls.data
         .slice()
         .reverse()
-        .map(({short_url: shortUrl, url: longUrl, slug}) => {
+        .map(({short_url: shortUrl, url: longUrl, slug, added}, index) => {
           return (
             <ShortenedUrlItem
               key={shortUrl}
               shortUrl={shortUrl}
               longUrl={longUrl}
               slug={slug}
+              highlighted={index === 0 && added}
             />
           );
         })}
+      {!shortenedUrls.initialized && <ActivityIndicator color="green" />}
     </>
   );
 };

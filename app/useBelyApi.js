@@ -5,36 +5,37 @@ import {registerReducer} from './reduxSetup';
 
 const stateDefault = {
   initialized: false,
-  refreshing: false,
   data: [],
   errorType: null,
   timestamp: 0,
+};
+
+const mergeArraysRemovingUrlDupesFromSecond = (
+  arrayToPreserve = [],
+  arrayToRemoveDupesFrom = []
+) => {
+  return [
+    ...arrayToRemoveDupesFrom.filter(({url}) => {
+      const f = arrayToPreserve.some(({url: addedUrl}) => url === addedUrl);
+      return !f;
+    }),
+    ...arrayToPreserve,
+  ];
 };
 registerReducer({
   shortenedUrls: (state = stateDefault, action) => {
     const now = Date.now();
     switch (action.type) {
-      case 'REFRESH_INIT':
-        return {
-          ...state,
-          refreshing: true,
-          errorType: null,
-          timestamp: now,
-        };
       case 'REFRESH_SUCCESS':
         return {
           ...state,
           initialized: true,
-          refreshing: false,
-          data: action.payload,
           errorType: null,
           timestamp: now,
-        };
-      case 'FETCH_FAILURE':
-        return {
-          ...state,
-          errorType: action.errorType,
-          timestamp: now,
+          data: mergeArraysRemovingUrlDupesFromSecond(
+            state.data,
+            action.payload
+          ),
         };
       case 'REMOVE_ITEM':
         if (!state.data) {
@@ -116,7 +117,6 @@ const useBellyApi = () => {
   const [errorData, setErrorData] = useState(emptyObj);
   const dispatch = useDispatch();
   const shortenedUrls = useSelector(shortenedUrlsSelector);
-
   const removeItem = useCallback(
     slug => {
       dispatch({
@@ -130,7 +130,17 @@ const useBellyApi = () => {
 
   const addItem = useCallback(
     async url => {
-      const preExistingShortenedUrl = shortenedUrls.data.find(({url:oldUrl}) => (url === oldUrl));
+      const preExistingShortenedUrl = shortenedUrls.data.find(
+        ({url: oldUrl}) => url === oldUrl
+      );
+      dispatch({
+        type: 'ADD_ITEM',
+        data: {
+          url,
+          short_url: 'loading...',
+          slug: null,
+        },
+      });
       if (preExistingShortenedUrl) {
         setIsLoading(true);
         await delay(1000);
@@ -142,7 +152,7 @@ const useBellyApi = () => {
         return null;
       }
       if (!isUrl(url)) {
-        return setErrorData({errorType:'invalidUrl'});
+        return setErrorData({errorType: 'invalidUrl'});
       }
       try {
         const fetchPromise = fetchBely('shorten', url);
@@ -157,12 +167,12 @@ const useBellyApi = () => {
       }
       return null;
     },
-    [dispatch,shortenedUrls]
+    [dispatch, shortenedUrls]
   );
 
   const refreshShortenedUrl = useCallback(async () => {
     const fetchPromise = fetchBely('refresh');
-    const [result] = await Promise.all([fetchPromise, delay(0)]);
+    const [result] = await Promise.all([fetchPromise, delay(2000)]);
     return dispatch({type: 'REFRESH_SUCCESS', payload: result});
   }, [dispatch]);
 
