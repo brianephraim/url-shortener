@@ -5,6 +5,7 @@ import {registerReducer} from './reduxSetup';
 
 const stateDefault = {
   initialized: false,
+  refreshing: false,
   data: [],
   errorType: null,
   timestamp: 0,
@@ -13,16 +14,18 @@ registerReducer({
   shortenedUrls: (state = stateDefault, action) => {
     const now = Date.now();
     switch (action.type) {
-      case 'FETCH_INIT':
+      case 'REFRESH_INIT':
         return {
           ...state,
+          refreshing: true,
           errorType: null,
           timestamp: now,
         };
-      case 'FETCH_SUCCESS':
+      case 'REFRESH_SUCCESS':
         return {
           ...state,
           initialized: true,
+          refreshing: false,
           data: action.payload,
           errorType: null,
           timestamp: now,
@@ -50,7 +53,7 @@ registerReducer({
           errorType: null,
           timestamp: now,
           data: [
-            ...state.data.filter(({slug}) => action.data.slug !== slug),
+            ...state.data.filter(({url}) => action.data.url !== url),
             {
               ...action.data,
               added: now,
@@ -76,13 +79,13 @@ const purposeToFetchMethodMap = {
 function delay(time = 1000) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
-function fetchBely(purpose, param) {
+async function fetchBely(purpose, param) {
   try {
     const method = purposeToFetchMethodMap[purpose];
     const paramPath = param && method !== 'POST' ? `/${param}` : '';
     const belyApiPath = 'https://api.bely.me/links';
     const fetchUrl = `${belyApiPath}${paramPath}`;
-    return fetch(fetchUrl, {
+    const result = await fetch(fetchUrl, {
       method,
       headers: {
         Accept: 'application/json',
@@ -97,6 +100,8 @@ function fetchBely(purpose, param) {
             }),
           }),
     }).then(r => (purpose === 'remove' ? r : r.json()));
+    // console.log('fetch',purpose,param,result);
+    return result;
   } catch (error) {
     /* eslint-disable no-console */
     console.warn('fetchBely error', purpose, param, error);
@@ -125,10 +130,20 @@ const useBellyApi = () => {
 
   const addItem = useCallback(
     async url => {
-      if (!isUrl(url)) {
-        return setErrorData({errorType: 'invalidUrl'});
+      const preExistingShortenedUrl = shortenedUrls.data.find(({url:oldUrl}) => (url === oldUrl));
+      if (preExistingShortenedUrl) {
+        setIsLoading(true);
+        await delay(1000);
+        dispatch({
+          type: 'ADD_ITEM',
+          data: preExistingShortenedUrl,
+        });
+        setIsLoading(false);
+        return null;
       }
-      setIsLoading(true);
+      if (!isUrl(url)) {
+        return setErrorData({errorType:'invalidUrl'});
+      }
       try {
         const fetchPromise = fetchBely('shorten', url);
         const [result] = await Promise.all([fetchPromise, delay(1000)]);
@@ -142,13 +157,13 @@ const useBellyApi = () => {
       }
       return null;
     },
-    [dispatch]
+    [dispatch,shortenedUrls]
   );
 
   const refreshShortenedUrl = useCallback(async () => {
     const fetchPromise = fetchBely('refresh');
     const [result] = await Promise.all([fetchPromise, delay(0)]);
-    return dispatch({type: 'FETCH_SUCCESS', payload: result});
+    return dispatch({type: 'REFRESH_SUCCESS', payload: result});
   }, [dispatch]);
 
   return {
