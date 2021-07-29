@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import {
 import Toast from './Toast';
 import UrlShortenerHistory from './UrlShortenerHistory';
 import ShortenUrlForm from './ShortenUrlForm';
+import useBellyApi from './useBelyApi';
 
 const bottomGoldenRatioHeightPercent = 61.8;
 const styles = StyleSheet.create({
@@ -44,6 +45,20 @@ const DismissKeyboard = ({children, style}) => (
 );
 const onStartShouldSetResponder = () => true;
 const UrlShortenerScreen = () => {
+  const scrollRef = useRef();
+  const {shortenedUrls} = useBellyApi();
+  const mostRecentlyAdded =
+    shortenedUrls.data[shortenedUrls.data.length - 1] || {};
+  const {added} = mostRecentlyAdded;
+
+  useEffect(() => {
+    added &&
+      scrollRef.current.scrollTo({
+        y: 0,
+        animated: true,
+      });
+  }, [added]);
+
   return (
     <DismissKeyboard style={styles.container}>
       <Toast>
@@ -51,7 +66,11 @@ const UrlShortenerScreen = () => {
           <Text style={styles.logo}>URL Shortener</Text>
           <ShortenUrlForm />
         </View>
-        <ScrollView alwaysBounceVertical={false} style={styles.outputHalf}>
+        <ScrollView
+          alwaysBounceVertical={false}
+          style={styles.outputHalf}
+          ref={scrollRef}
+        >
           <View
             style={styles.allGeneratedUrlsContainer}
             onStartShouldSetResponder={onStartShouldSetResponder}
