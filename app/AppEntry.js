@@ -1,6 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import UrlShortenerScreen from './UrlShortenerScreen';
+import {ReduxProvider} from './reduxSetup';
 
 const styles = StyleSheet.create({
   safeAreaView: {
@@ -10,9 +11,11 @@ const styles = StyleSheet.create({
 });
 
 const AppEntry = () => (
-  <SafeAreaView style={styles.safeAreaView}>
-    <UrlShortenerScreen />
-  </SafeAreaView>
+  <ReduxProvider>
+    <SafeAreaView style={styles.safeAreaView}>
+      <UrlShortenerScreen />
+    </SafeAreaView>
+  </ReduxProvider>
 );
 
 export default AppEntry;

@@ -24,38 +24,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const UrlShortenerScreen = ({onSuccess}) => {
+const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
-  const [
-    {data: newShortenedUrlData, isLoading, errorType, timestamp},
-    setUrlToShorten,
-  ] = useBellyApi('shorten');
+  const {isLoading, errorData, addItem} = useBellyApi('shorten');
   const setToast = React.useContext(ToastContext);
 
   const onPressSubmitButton = useCallback(() => {
-    setUrlToShorten(inputText);
-  }, [setUrlToShorten, inputText]);
+    addItem(inputText);
+  }, [addItem, inputText]);
   const buttonText = isLoading ? 'loading...' : 'Shorten';
 
   useEffect(() => {
     let errorText;
+    const {errorType} = errorData;
     switch (errorType) {
       case 'cancel':
         break;
       case 'fetch':
+        errorText =
+          'There was a problem processing your request. Please try again.';
         break;
-      case 'invalid':
+      case 'invalidUrl':
         errorText = 'Unable to shorten that link. It is not a valid url.';
         break;
       default:
         errorText = '';
     }
-    if (errorText) {
-      setToast({content: errorText, timestamp});
-    } else {
-      newShortenedUrlData.short_url && onSuccess(newShortenedUrlData);
-    }
-  }, [errorType, timestamp, setToast, onSuccess, newShortenedUrlData]);
+    errorText && setToast({errorText});
+  }, [errorData, setToast]);
   return (
     <>
       <TextInput

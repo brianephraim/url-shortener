@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -43,22 +43,20 @@ const DismissKeyboard = ({children, style}) => (
   </TouchableOpacity>
 );
 const onStartShouldSetResponder = () => true;
-const emptyObj = {};
 const UrlShortenerScreen = () => {
-  const [lastShortenedUrl, setLastShortenedUrl] = useState(emptyObj);
   return (
     <DismissKeyboard style={styles.container}>
       <Toast>
         <View style={styles.inputHalf}>
           <Text style={styles.logo}>URL Shortener</Text>
-          <ShortenUrlForm onSuccess={setLastShortenedUrl} />
+          <ShortenUrlForm />
         </View>
         <ScrollView alwaysBounceVertical={false} style={styles.outputHalf}>
           <View
             style={styles.allGeneratedUrlsContainer}
             onStartShouldSetResponder={onStartShouldSetResponder}
           >
-            <UrlShortenerHistory lastShortenedUrl={lastShortenedUrl} />
+            <UrlShortenerHistory />
           </View>
         </ScrollView>
       </Toast>

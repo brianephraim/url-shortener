@@ -3,23 +3,16 @@ import {ActivityIndicator} from 'react-native';
 import useBellyApi from './useBelyApi';
 import ShortenedUrlItem from './ShortenedUrlItem';
 
-const emptyArray = [];
-const UrlShortenerHistory = ({lastShortenedUrl}) => {
-  const [{data: shortenedUrlHistory = emptyArray}, removeItemBySlug, addItem] =
-    useBellyApi('history');
-  useEffect(() => {
-    if (lastShortenedUrl.slug) {
-      addItem(lastShortenedUrl);
-    }
-  }, [lastShortenedUrl, addItem]);
-
-  if (!shortenedUrlHistory.length) {
+const UrlShortenerHistory = () => {
+  const {shortenedUrls, refreshShortenedUrl} = useBellyApi('history');
+  useEffect(refreshShortenedUrl, [refreshShortenedUrl]);
+  if (!shortenedUrls.initialized) {
     return <ActivityIndicator color="green" />;
   }
-
   return (
     <>
-      {shortenedUrlHistory
+      {shortenedUrls.data
+        .slice()
         .reverse()
         .map(({short_url: shortUrl, url: longUrl, slug}) => {
           return (
@@ -28,12 +21,10 @@ const UrlShortenerHistory = ({lastShortenedUrl}) => {
               shortUrl={shortUrl}
               longUrl={longUrl}
               slug={slug}
-              removeItemBySlug={removeItemBySlug}
             />
           );
         })}
     </>
   );
 };
-
 export default UrlShortenerHistory;

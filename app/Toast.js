@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Animated, View, Text, StyleSheet} from 'react-native';
 
 const ToastContext = React.createContext({asdf: 'qwer'});
@@ -26,40 +26,54 @@ const styles = StyleSheet.create({
 });
 const emptyObj = {};
 const Toast = ({children}) => {
-  const [toastData, setToast] = useState(emptyObj);
-  const {content, timestamp} = toastData;
+  const toastRef = useRef();
+  const [toastData, setToast] = useState(null);
   const [animationStyle, setAnimationStyle] = useState(null);
-  const [lastTimestamp, setLasttimestamp] = useState(null);
+  const [lastToastDataState, setLastToastDataState] = useState(null);
   if (!animationStyle) {
     setAnimationStyle([styles.positioner, {opacity: new Animated.Value(0)}]);
   }
-  let toastContentToUse = content;
+  const {errorText} = toastData || emptyObj;
+  let toastContentToUse = errorText;
   if (['string', 'number'].includes(typeof toastContentToUse)) {
     toastContentToUse = <Text style={styles.text}>{toastContentToUse}</Text>;
   }
   useEffect(() => {
-    setLasttimestamp(timestamp);
-    if (!timestamp) {
+    if (lastToastDataState === toastData) {
       return null;
     }
-    Animated.timing(animationStyle[1].opacity, {
+    if (toastRef.anim) {
+      toastRef.anim.stop();
+      animationStyle[1].opacity.setValue(0);
+      toastRef.anim = null;
+    }
+    if (!toastData || !toastData.errorText) {
+      return null;
+    }
+
+    setLastToastDataState(toastData);
+    toastRef.anim = Animated.timing(animationStyle[1].opacity, {
       toValue: 1,
       duration: 300,
       useNativeDriver: true,
-    }).start(() => {
-      Animated.timing(animationStyle[1].opacity, {
+    }).start(({finished}) => {
+      if (!finished) {
+        return null;
+      }
+      toastRef.anim = Animated.timing(animationStyle[1].opacity, {
         toValue: 0,
         delay: 3000,
         duration: 300,
         useNativeDriver: true,
-      }).start(() => {
-        setLasttimestamp(null);
-      });
+      }).start();
+      return null;
     });
-    return null;
-  }, [timestamp, animationStyle]);
+    return () => {
+      toastRef.anim && toastRef.anim.stop();
+    };
+  }, [toastRef, lastToastDataState, toastData, animationStyle]);
   let hasToastElements = true;
-  if (!lastTimestamp) {
+  if (!lastToastDataState) {
     hasToastElements = false;
   }
   if (!children) {
