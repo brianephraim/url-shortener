@@ -130,6 +130,9 @@ const useBellyApi = () => {
 
   const addItem = useCallback(
     async url => {
+      if (!isUrl(url)) {
+        return setErrorData({errorType: 'invalidUrl'});
+      }
       const preExistingShortenedUrl = shortenedUrls.data.find(
         ({url: oldUrl}) => url === oldUrl
       );
@@ -151,9 +154,7 @@ const useBellyApi = () => {
         setIsLoading(false);
         return null;
       }
-      if (!isUrl(url)) {
-        return setErrorData({errorType: 'invalidUrl'});
-      }
+
       try {
         const fetchPromise = fetchBely('shorten', url);
         const [result] = await Promise.all([fetchPromise, delay(1000)]);
