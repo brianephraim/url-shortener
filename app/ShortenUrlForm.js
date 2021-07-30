@@ -50,7 +50,7 @@ const UrlShortenerScreen = () => {
       default:
         errorText = '';
     }
-    errorText && setToast({errorText});
+    errorText && setToast({text: errorText, isError: true});
   }, [errorData, setToast]);
   return (
     <>

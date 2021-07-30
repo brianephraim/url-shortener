@@ -5,6 +5,11 @@ const ToastContext = React.createContext({asdf: 'qwer'});
 const {Provider} = ToastContext;
 export {ToastContext};
 
+const containerStyle = {
+  backgroundColor: 'yellow',
+  minWidth: 200,
+  padding: 15,
+};
 const styles = StyleSheet.create({
   positioner: {
     position: 'absolute',
@@ -14,10 +19,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  container: {
+  container: containerStyle,
+  errorContainer: {
+    ...containerStyle,
     backgroundColor: 'pink',
-    minWidth: 200,
-    padding: 15,
   },
   text: {
     fontSize: 20,
@@ -33,8 +38,8 @@ const Toast = ({children}) => {
   if (!animationStyle) {
     setAnimationStyle([styles.positioner, {opacity: new Animated.Value(0)}]);
   }
-  const {errorText} = toastData || emptyObj;
-  let toastContentToUse = errorText;
+  const {text, isError} = toastData || emptyObj;
+  let toastContentToUse = text;
   if (['string', 'number'].includes(typeof toastContentToUse)) {
     toastContentToUse = <Text style={styles.text}>{toastContentToUse}</Text>;
   }
@@ -47,7 +52,7 @@ const Toast = ({children}) => {
       animationStyle[1].opacity.setValue(0);
       toastRef.anim = null;
     }
-    if (!toastData || !toastData.errorText) {
+    if (!toastData || !toastData.text) {
       return null;
     }
 
@@ -83,7 +88,9 @@ const Toast = ({children}) => {
     <Provider value={setToast}>
       {hasToastElements && (
         <Animated.View style={animationStyle}>
-          <View style={styles.container}>{toastContentToUse}</View>
+          <View style={isError ? styles.errorContainer : styles.container}>
+            {toastContentToUse}
+          </View>
         </Animated.View>
       )}
       {children}
