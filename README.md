@@ -7,3 +7,9 @@ Code can be tidied up by running
 
 Prettier will not solve linting issues.  See linting problems by running
 `npm run lint`
+
+
+## Problem building ios with `npm run ios` ?
+
+Do you use `nvm`?  Try `nvm unalias default`
+[(discussion)](https://github.com/react-native-community/upgrade-support/issues/138#issuecomment-855462806)
