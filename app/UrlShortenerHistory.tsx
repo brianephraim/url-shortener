@@ -3,24 +3,8 @@ import {ActivityIndicator} from 'react-native';
 import useBellyApi from './useBelyApi';
 import ShortenedUrlItem from './ShortenedUrlItem';
 
-interface ShortenedUrlsData {
-  short_url: string;
-  url: string;
-  slug: string;
-  added: number;
-}
-interface ShortenedUrls {
-  data: ShortenedUrlsData[];
-  initialized: boolean;
-}
-interface BellyApiObj {
-  isLoading: boolean;
-  refreshShortenedUrl: () => void;
-  shortenedUrls: ShortenedUrls;
-}
-
 const UrlShortenerHistory = () => {
-  const {shortenedUrls, refreshShortenedUrl}: BellyApiObj = useBellyApi();
+  const {shortenedUrls, refreshShortenedUrl} = useBellyApi();
   useEffect(() => {
     refreshShortenedUrl();
   }, [refreshShortenedUrl]);
@@ -30,10 +14,7 @@ const UrlShortenerHistory = () => {
         .slice()
         .reverse()
         .map(
-          (
-            {short_url: shortUrl, url: longUrl, slug, added}: ShortenedUrlsData,
-            index: number
-          ) => {
+          ({short_url: shortUrl, url: longUrl, slug, added}, index: number) => {
             return (
               <ShortenedUrlItem
                 key={shortUrl}

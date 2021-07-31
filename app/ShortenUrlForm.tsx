@@ -24,19 +24,9 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ErrorData {
-  errorType?: string;
-}
-
-interface BellyApiObj {
-  isLoading: boolean;
-  errorData: ErrorData;
-  addItem: (url: string) => void;
-}
-
 const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
-  const {isLoading, errorData, addItem}: BellyApiObj = useBellyApi();
+  const {isLoading, errorData, addItem} = useBellyApi();
   const setToast = React.useContext(ToastContext) as ToastContextType;
   const onPressSubmitButton = useCallback(() => {
     addItem(inputText);

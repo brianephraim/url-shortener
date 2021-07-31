@@ -10,8 +10,30 @@ const stateDefault = {
   timestamp: 0,
 };
 
+export interface ShortenedUrlsData {
+  short_url: string;
+  url: string;
+  slug: string;
+  added: number;
+}
+export interface ShortenedUrls {
+  data: ShortenedUrlsData[];
+  initialized: boolean;
+}
+interface ErrorData {
+  errorType?: string;
+}
+interface BellyApiObj {
+  isLoading: boolean;
+  errorData: ErrorData;
+  refreshShortenedUrl: () => void;
+  shortenedUrls: ShortenedUrls;
+  addItem: (url: string) => void;
+  removeItem: (url: string) => void;
+}
+
 const mergeArraysRemovingUrlDupesFromSecond = (
-  arrayToPreserve = [],
+  arrayToPreserve: ShortenedUrlsData[] = [],
   arrayToRemoveDupesFrom = []
 ) => {
   return [
@@ -22,8 +44,9 @@ const mergeArraysRemovingUrlDupesFromSecond = (
     ...arrayToPreserve,
   ];
 };
+
 registerReducer({
-  shortenedUrls: (state = stateDefault, action) => {
+  shortenedUrls: (state: ShortenedUrls = stateDefault, action) => {
     const now = Date.now();
     switch (action.type) {
       case 'REFRESH_SUCCESS':
@@ -67,10 +90,18 @@ registerReducer({
   },
 });
 
-function shortenedUrlsSelector({shortenedUrls}) {
-  return shortenedUrls;
+interface StoreWithShortenedUrls {
+  shortenedUrls: ShortenedUrls;
 }
-const purposeToFetchMethodMap = {
+
+const shortenedUrlsSelector = ({shortenedUrls}: StoreWithShortenedUrls) => {
+  return shortenedUrls;
+};
+
+interface PurposeToFetchMethodMap {
+  [key: string]: string;
+}
+const purposeToFetchMethodMap: PurposeToFetchMethodMap = {
   shorten: 'POST',
   refresh: 'GET',
   showSpecific: 'GET',
@@ -80,7 +111,7 @@ const purposeToFetchMethodMap = {
 function delay(time = 1000) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
-async function fetchBely(purpose, param) {
+async function fetchBely(purpose: string, param?: string) {
   try {
     const method = purposeToFetchMethodMap[purpose];
     const paramPath = param && method !== 'POST' ? `/${param}` : '';
@@ -112,7 +143,7 @@ async function fetchBely(purpose, param) {
 }
 
 const emptyObj = {};
-const useBellyApi = () => {
+const useBellyApi: () => BellyApiObj = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState(emptyObj);
   const dispatch = useDispatch();
