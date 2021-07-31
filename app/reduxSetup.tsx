@@ -1,25 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, Store, Reducer} from 'redux';
 
 let reducer = {};
-export const registerReducer = newReducers => {
+
+interface NewReducers {
+  [reducerKey: string]: Reducer;
+}
+export const registerReducer = (newReducers: NewReducers) => {
   reducer = {
     ...reducer,
     ...newReducers,
   };
 };
 let store;
-const ReduxProvider = ({children}) => {
-  const [ready, setIsReady] = useState(false);
+
+interface Props {
+  children?: JSX.Element;
+}
+
+const ReduxProvider: React.FC<Props> = ({children}) => {
+  const [storeState, setStoreState] = useState<Store | null>(null);
   useEffect(() => {
-    store = createStore(combineReducers(reducer), {});
-    window.reduxStore = store;
-    setIsReady(store);
+    store = createStore(combineReducers<() => void>(reducer), {});
+    setStoreState(store);
   }, []);
-  if (!ready) {
+  if (!storeState) {
     return null;
   }
-  return <Provider store={ready}>{children}</Provider>;
+  return <Provider store={storeState}>{children}</Provider>;
 };
 export {ReduxProvider};
