@@ -1,14 +1,6 @@
 import {useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import isUrl from 'is-url-superb';
 import {registerReducer} from './reduxSetup';
-
-const stateDefault = {
-  initialized: false,
-  data: [],
-  errorType: null,
-  timestamp: 0,
-};
 
 export interface ShortenedUrlsData {
   short_url: string;
@@ -32,6 +24,21 @@ interface BellyApiObj {
   removeItem: (url: string) => void;
 }
 
+export const addItemDelayTime = 1000;
+export const refreshDelayTime = 2000;
+/* eslint-disable no-useless-escape */
+const validateUrlExpression =
+  /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+/* eslint-enable no-useless-escape */
+const validateUrlRegex = new RegExp(validateUrlExpression);
+const isUrl = (url: string) => !!url.match(validateUrlRegex);
+
+const stateDefault = {
+  initialized: false,
+  data: [],
+  errorType: null,
+};
+
 const mergeArraysRemovingUrlDupesFromSecond = (
   arrayToPreserve: ShortenedUrlsData[] = [],
   arrayToRemoveDupesFrom = []
@@ -54,7 +61,6 @@ registerReducer({
           ...state,
           initialized: true,
           errorType: null,
-          timestamp: now,
           data: mergeArraysRemovingUrlDupesFromSecond(
             state.data,
             action.payload
@@ -75,7 +81,6 @@ registerReducer({
         return {
           ...state,
           errorType: null,
-          timestamp: now,
           data: [
             ...state.data.filter(({url}) => action.data.url !== url),
             {
@@ -132,7 +137,6 @@ async function fetchBely(purpose: string, param?: string) {
             }),
           }),
     }).then(r => (purpose === 'remove' ? r : r.json()));
-    // console.log('fetch',purpose,param,result);
     return result;
   } catch (error) {
     /* eslint-disable no-console */
@@ -160,7 +164,11 @@ const useBellyApi: () => BellyApiObj = () => {
   );
 
   const addItem = useCallback(
-    async url => {
+    async urlOriginal => {
+      let url = urlOriginal;
+      if (!url.includes('://')) {
+        url = `https://${url}`;
+      }
       if (!isUrl(url)) {
         return setErrorData({errorType: 'invalidUrl'});
       }
@@ -177,7 +185,7 @@ const useBellyApi: () => BellyApiObj = () => {
       });
       if (preExistingShortenedUrl) {
         setIsLoading(true);
-        await delay(1000);
+        await delay(addItemDelayTime);
         dispatch({
           type: 'ADD_ITEM',
           data: preExistingShortenedUrl,
@@ -188,7 +196,10 @@ const useBellyApi: () => BellyApiObj = () => {
 
       try {
         const fetchPromise = fetchBely('shorten', url);
-        const [result] = await Promise.all([fetchPromise, delay(1000)]);
+        const [result] = await Promise.all([
+          fetchPromise,
+          delay(addItemDelayTime),
+        ]);
         dispatch({
           type: 'ADD_ITEM',
           data: result,
@@ -204,7 +215,7 @@ const useBellyApi: () => BellyApiObj = () => {
 
   const refreshShortenedUrl = useCallback(async () => {
     const fetchPromise = fetchBely('refresh');
-    const [result] = await Promise.all([fetchPromise, delay(2000)]);
+    const [result] = await Promise.all([fetchPromise, delay(refreshDelayTime)]);
     return dispatch({type: 'REFRESH_SUCCESS', payload: result});
   }, [dispatch]);
 

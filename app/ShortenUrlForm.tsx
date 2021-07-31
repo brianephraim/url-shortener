@@ -60,6 +60,8 @@ const UrlShortenerScreen = () => {
         onChangeText={setInputText}
         returnKeyType="go"
         onSubmitEditing={onPressSubmitButton}
+        autoCapitalize="none"
+        spellCheck={false}
       />
       <TouchableOpacity
         style={styles.submitButton}
