@@ -1,7 +1,7 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:react-perf/recommended"],
-  "plugins": ["babel", "react-native", "react-perf", "react-hooks"],
-  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier", "eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react-perf/recommended"],
+  "plugins": ["import","babel", "@typescript-eslint", "react-native", "react-perf", "react-hooks"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "react-native/no-unused-styles": 2,
     "react-native/no-inline-styles": 2,
@@ -21,7 +21,12 @@
         "ts": "never",
         "tsx": "never"
       }
-    ]
+    ],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/object-curly-spacing": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "import/no-unresolved": "error"
   },
   "env": {
     "jest": true,
@@ -30,8 +35,14 @@
     "react-native/react-native": true
   },
   settings: {
-    "import/resolver": {
-      typescript: {}
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "app"
+      }
+    }
   }
 }
