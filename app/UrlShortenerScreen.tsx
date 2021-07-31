@@ -1,16 +1,10 @@
 import React, {useRef, useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Keyboard,
-} from 'react-native';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import Toast from './Toast';
 import UrlShortenerHistory from './UrlShortenerHistory';
 import ShortenUrlForm from './ShortenUrlForm';
 import useBellyApi from './useBelyApi';
+import DismissKeyboard from './DismissKeyboard';
 
 const bottomGoldenRatioHeightPercent = 61.8;
 const styles = StyleSheet.create({
@@ -38,14 +32,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const DismissKeyboard = ({children, style}) => (
-  <TouchableOpacity activeOpacity={1} style={style} onPress={Keyboard.dismiss}>
-    {children}
-  </TouchableOpacity>
-);
 const onStartShouldSetResponder = () => true;
 const UrlShortenerScreen = () => {
-  const scrollRef = useRef();
+  const scrollRef = useRef<ScrollView>(null);
   const {shortenedUrls} = useBellyApi();
   const mostRecentlyAdded =
     shortenedUrls.data[shortenedUrls.data.length - 1] || {};
@@ -53,6 +42,7 @@ const UrlShortenerScreen = () => {
 
   useEffect(() => {
     added &&
+      scrollRef.current &&
       scrollRef.current.scrollTo({
         y: 0,
         animated: true,
@@ -62,22 +52,24 @@ const UrlShortenerScreen = () => {
   return (
     <DismissKeyboard style={styles.container}>
       <Toast>
-        <View style={styles.inputHalf}>
-          <Text style={styles.logo}>URL Shortener</Text>
-          <ShortenUrlForm />
-        </View>
-        <ScrollView
-          alwaysBounceVertical={false}
-          style={styles.outputHalf}
-          ref={scrollRef}
-        >
-          <View
-            style={styles.allGeneratedUrlsContainer}
-            onStartShouldSetResponder={onStartShouldSetResponder}
-          >
-            <UrlShortenerHistory />
+        <>
+          <View style={styles.inputHalf}>
+            <Text style={styles.logo}>URL Shortener</Text>
+            <ShortenUrlForm />
           </View>
-        </ScrollView>
+          <ScrollView
+            alwaysBounceVertical={false}
+            style={styles.outputHalf}
+            ref={scrollRef}
+          >
+            <View
+              style={styles.allGeneratedUrlsContainer}
+              onStartShouldSetResponder={onStartShouldSetResponder}
+            >
+              <UrlShortenerHistory />
+            </View>
+          </ScrollView>
+        </>
       </Toast>
     </DismissKeyboard>
   );
