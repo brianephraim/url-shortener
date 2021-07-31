@@ -1,10 +1,26 @@
 import React, {useCallback} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import useBellyApi from './useBelyApi';
 import {ToastContext} from './Toast';
 
-const stylesRaw = {
+interface Style {
+  container: ViewStyle;
+  allGeneratedUrlsShortUrl: TextStyle;
+  allGeneratedUrlsLongUrl: TextStyle;
+  buttonContainer: ViewStyle;
+  button: ViewStyle;
+  textSection: ViewStyle;
+}
+
+const stylesRaw: Style = {
   container: {
     backgroundColor: '#888',
     margin: 6,
@@ -26,6 +42,7 @@ const stylesRaw = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textSection: {},
 };
 
 const styles = StyleSheet.create(stylesRaw);
@@ -39,10 +56,21 @@ const highlightedStyles = StyleSheet.create({
   },
 });
 /* eslint-enable react-native/no-unused-styles */
+interface Props {
+  shortUrl: string;
+  longUrl: string;
+  slug: string;
+  highlighted?: boolean;
+}
 
-const ShortenedUrlItem = ({shortUrl, longUrl, slug, highlighted}) => {
-  const setToast = React.useContext(ToastContext);
-  const {removeItem} = useBellyApi('remove');
+const ShortenedUrlItem: React.FC<Props> = ({
+  shortUrl,
+  longUrl,
+  slug,
+  highlighted,
+}) => {
+  const setToast = React.useContext<any>(ToastContext);
+  const {removeItem} = useBellyApi();
   const onPressRemove = useCallback(async () => {
     removeItem(slug);
   }, [removeItem, slug]);

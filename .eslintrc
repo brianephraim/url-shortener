@@ -11,12 +11,27 @@
     "react/prop-types": 0,
     "no-unused-expressions": 0,
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
   "env": {
     "jest": true,
     "browser": true,
     "node": true,
     "react-native/react-native": true
+  },
+  settings: {
+    "import/resolver": {
+      typescript: {}
+    },
   }
 }

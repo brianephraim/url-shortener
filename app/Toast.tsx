@@ -1,16 +1,45 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Animated, View, Text, StyleSheet} from 'react-native';
+import {
+  Animated,
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 
-const ToastContext = React.createContext({asdf: 'qwer'});
-const {Provider} = ToastContext;
-export {ToastContext};
+interface Style {
+  positioner: ViewStyle;
+  container: ViewStyle;
+  errorContainer: ViewStyle;
+  text: TextStyle;
+}
+
+interface OpacityStyle {
+  // `any` because typescript hates `animationStyle[1].opacity.setValue(0);`
+  opacity: Animated.Value | any;
+}
+
+export interface ToastData {
+  text?: string;
+  isError?: boolean;
+}
+
+interface Props {
+  children?: JSX.Element;
+}
 
 const containerStyle = {
   backgroundColor: 'yellow',
   minWidth: 200,
   padding: 15,
 };
-const styles = StyleSheet.create({
+
+const ToastContext = React.createContext({});
+const {Provider} = ToastContext;
+export {ToastContext};
+
+const styles = StyleSheet.create<Style>({
   positioner: {
     position: 'absolute',
     zIndex: 1,
@@ -29,54 +58,65 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-const emptyObj = {};
-const Toast = ({children}) => {
-  const toastRef = useRef();
-  const [toastData, setToast] = useState(null);
-  const [animationStyle, setAnimationStyle] = useState(null);
-  const [lastToastDataState, setLastToastDataState] = useState(null);
-  if (!animationStyle) {
-    setAnimationStyle([styles.positioner, {opacity: new Animated.Value(0)}]);
-  }
-  const {text, isError} = toastData || emptyObj;
-  let toastContentToUse = text;
-  if (['string', 'number'].includes(typeof toastContentToUse)) {
-    toastContentToUse = <Text style={styles.text}>{toastContentToUse}</Text>;
-  }
+
+const Toast: React.FC<Props> = ({children}) => {
+  const animRef = useRef<Animated.CompositeAnimation | null>();
+  const [toastData, setToast] = useState<ToastData | null>(null);
+  const [animationStyle] = useState<(ViewStyle | OpacityStyle)[]>([
+    styles.positioner,
+    {opacity: new Animated.Value(0)},
+  ]);
+  const [lastToastDataState, setLastToastDataState] =
+    useState<ToastData | null>(null);
+  const {text, isError} = toastData || {};
   useEffect(() => {
     if (lastToastDataState === toastData) {
-      return null;
+      return;
     }
-    if (toastRef.anim) {
-      toastRef.anim.stop();
+    if (animRef.current) {
+      animRef.current.stop();
       animationStyle[1].opacity.setValue(0);
-      toastRef.anim = null;
+      animRef.current = null;
     }
     if (!toastData || !toastData.text) {
-      return null;
+      return;
     }
 
     setLastToastDataState(toastData);
-    toastRef.anim = Animated.timing(animationStyle[1].opacity, {
+    animRef.current = Animated.timing(animationStyle[1].opacity, {
       toValue: 1,
       duration: 300,
       useNativeDriver: true,
-    }).start(({finished}) => {
-      if (!finished) {
-        return null;
-      }
-      toastRef.anim = Animated.timing(animationStyle[1].opacity, {
-        toValue: 0,
-        delay: 3000,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-      return null;
     });
+    animRef.current.start(({finished}) => {
+      if (!finished) {
+        return;
+      }
+      if (!finished) {
+        return;
+      }
+
+      if (animRef.current) {
+        animRef.current = Animated.timing(animationStyle[1].opacity, {
+          toValue: 0,
+          delay: 3000,
+          duration: 300,
+          useNativeDriver: true,
+        });
+        animRef.current.start();
+      }
+    });
+  }, [animRef, lastToastDataState, toastData, animationStyle]);
+
+  useEffect(() => {
+    // only running this cleanup on unmount
     return () => {
-      toastRef.anim && toastRef.anim.stop();
+      if (animRef.current && animRef.current) {
+        animRef.current.stop();
+      }
     };
-  }, [toastRef, lastToastDataState, toastData, animationStyle]);
+  }, []);
+
   let hasToastElements = true;
   if (!lastToastDataState) {
     hasToastElements = false;
@@ -89,7 +129,7 @@ const Toast = ({children}) => {
       {hasToastElements && (
         <Animated.View style={animationStyle}>
           <View style={isError ? styles.errorContainer : styles.container}>
-            {toastContentToUse}
+            <Text style={styles.text}>{text}</Text>
           </View>
         </Animated.View>
       )}
