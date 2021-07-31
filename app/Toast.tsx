@@ -8,6 +8,13 @@ import {
   TextStyle,
 } from 'react-native';
 
+interface ToastData {
+  text?: string;
+  isError?: boolean;
+}
+
+export type ToastContextType = (toastData: ToastData) => void;
+
 interface Style {
   positioner: ViewStyle;
   container: ViewStyle;
@@ -18,11 +25,6 @@ interface Style {
 interface OpacityStyle {
   // `any` because typescript hates `animationStyle[1].opacity.setValue(0);`
   opacity: Animated.Value | any;
-}
-
-export interface ToastData {
-  text?: string;
-  isError?: boolean;
 }
 
 interface Props {

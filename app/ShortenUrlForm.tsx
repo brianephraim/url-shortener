@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import useBellyApi from './useBelyApi';
-import {ToastContext} from './Toast';
+import {ToastContext, ToastContextType} from './Toast';
 
 const styles = StyleSheet.create({
   textInput: {
@@ -24,11 +24,20 @@ const styles = StyleSheet.create({
   },
 });
 
+interface ErrorData {
+  errorType?: string;
+}
+
+interface BellyApiObj {
+  isLoading: boolean;
+  errorData: ErrorData;
+  addItem: (url: string) => void;
+}
+
 const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
-  const {isLoading, errorData, addItem} = useBellyApi('shorten');
-  const setToast = React.useContext(ToastContext);
-
+  const {isLoading, errorData, addItem}: BellyApiObj = useBellyApi();
+  const setToast = React.useContext(ToastContext) as ToastContextType;
   const onPressSubmitButton = useCallback(() => {
     addItem(inputText);
   }, [addItem, inputText]);

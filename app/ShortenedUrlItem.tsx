@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import useBellyApi from './useBelyApi';
-import {ToastContext} from './Toast';
+import {ToastContext, ToastContextType} from './Toast';
 
 interface Style {
   container: ViewStyle;
@@ -69,7 +69,7 @@ const ShortenedUrlItem: React.FC<Props> = ({
   slug,
   highlighted,
 }) => {
-  const setToast = React.useContext<any>(ToastContext);
+  const setToast = React.useContext(ToastContext) as ToastContextType;
   const {removeItem} = useBellyApi();
   const onPressRemove = useCallback(async () => {
     removeItem(slug);
