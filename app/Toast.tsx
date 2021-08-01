@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ViewStyle,
   TextStyle,
+  SafeAreaView,
 } from 'react-native';
 
 interface ToastData {
@@ -16,10 +17,7 @@ interface ToastData {
 export type ToastContextType = (toastData: ToastData) => void;
 
 interface Style {
-  positioner: ViewStyle;
-  container: ViewStyle;
-  errorContainer: ViewStyle;
-  text: TextStyle;
+  [styleName: string]: ViewStyle | TextStyle;
 }
 
 interface OpacityStyle {
@@ -30,6 +28,11 @@ interface OpacityStyle {
 interface Props {
   children?: JSX.Element;
 }
+
+export const toastDelayTime = 3000;
+export const toastDurationTime = 300;
+export const toastEntireTime =
+  toastDurationTime + toastDelayTime + toastDurationTime + 1;
 
 const containerStyle = {
   backgroundColor: 'yellow',
@@ -42,6 +45,7 @@ const {Provider} = ToastContext;
 export {ToastContext};
 
 const styles = StyleSheet.create<Style>({
+  safeAreaView: {flex: 1},
   positioner: {
     position: 'absolute',
     zIndex: 1,
@@ -87,7 +91,7 @@ const Toast: React.FC<Props> = ({children}) => {
     setLastToastDataState(toastData);
     animRef.current = Animated.timing(animationStyle[1].opacity, {
       toValue: 1,
-      duration: 300,
+      duration: toastDurationTime,
       useNativeDriver: true,
     });
     animRef.current.start(({finished}) => {
@@ -97,12 +101,11 @@ const Toast: React.FC<Props> = ({children}) => {
       if (!finished) {
         return;
       }
-
       if (animRef.current) {
         animRef.current = Animated.timing(animationStyle[1].opacity, {
           toValue: 0,
-          delay: 3000,
-          duration: 300,
+          delay: toastDelayTime,
+          duration: toastDurationTime,
           useNativeDriver: true,
         });
         animRef.current.start();
@@ -127,16 +130,20 @@ const Toast: React.FC<Props> = ({children}) => {
     hasToastElements = false;
   }
   return (
-    <Provider value={setToast}>
-      {hasToastElements && (
-        <Animated.View style={animationStyle}>
-          <View style={isError ? styles.errorContainer : styles.container}>
-            <Text style={styles.text}>{text}</Text>
-          </View>
-        </Animated.View>
-      )}
-      {children}
-    </Provider>
+    <SafeAreaView style={styles.safeAreaView}>
+      <Provider value={setToast}>
+        {hasToastElements && (
+          <Animated.View style={animationStyle}>
+            <View style={isError ? styles.errorContainer : styles.container}>
+              <Text style={styles.text} testID="toastID">
+                {text}
+              </Text>
+            </View>
+          </Animated.View>
+        )}
+        {children}
+      </Provider>
+    </SafeAreaView>
   );
 };
 

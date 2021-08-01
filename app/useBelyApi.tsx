@@ -30,9 +30,7 @@ export const refreshDelayTime = 2000;
 const validateUrlExpression =
   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 /* eslint-enable no-useless-escape */
-const validateUrlRegex = new RegExp(validateUrlExpression);
-const isUrl = (url: string) => !!url.match(validateUrlRegex);
-
+const isUrl = (url: string) => !!url.match(validateUrlExpression);
 const stateDefault = {
   initialized: false,
   data: [],
@@ -195,6 +193,7 @@ const useBellyApi: () => BellyApiObj = () => {
       }
 
       try {
+        setIsLoading(true);
         const fetchPromise = fetchBely('shorten', url);
         const [result] = await Promise.all([
           fetchPromise,

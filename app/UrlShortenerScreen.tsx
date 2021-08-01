@@ -51,26 +51,24 @@ const UrlShortenerScreen = () => {
 
   return (
     <DismissKeyboard style={styles.container}>
-      <Toast>
-        <>
-          <View style={styles.inputHalf}>
-            <Text style={styles.logo}>URL Shortener</Text>
-            <ShortenUrlForm />
-          </View>
-          <ScrollView
-            alwaysBounceVertical={false}
-            style={styles.outputHalf}
-            ref={scrollRef}
+      <>
+        <View style={styles.inputHalf}>
+          <Text style={styles.logo}>URL Shortener</Text>
+          <ShortenUrlForm />
+        </View>
+        <ScrollView
+          alwaysBounceVertical={false}
+          style={styles.outputHalf}
+          ref={scrollRef}
+        >
+          <View
+            style={styles.allGeneratedUrlsContainer}
+            onStartShouldSetResponder={onStartShouldSetResponder}
           >
-            <View
-              style={styles.allGeneratedUrlsContainer}
-              onStartShouldSetResponder={onStartShouldSetResponder}
-            >
-              <UrlShortenerHistory />
-            </View>
-          </ScrollView>
-        </>
-      </Toast>
+            <UrlShortenerHistory />
+          </View>
+        </ScrollView>
+      </>
     </DismissKeyboard>
   );
 };

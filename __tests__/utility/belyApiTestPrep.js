@@ -19,10 +19,10 @@ const belyApiTestPrep = () => {
       method: mockDelete.method,
     });
   });
-
+  //
   afterEach(() => {
     jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    jest.useRealTimers('legacy');
     fetchMock.restore();
   });
 };

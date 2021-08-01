@@ -3,6 +3,12 @@ import {TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import useBellyApi from './useBelyApi';
 import {ToastContext, ToastContextType} from './Toast';
 
+export const testIDTextInput = 'shortenUrlFormTextInput';
+export const testIDButton = 'shortenUrlFormTButton';
+export const testIDButtonText = 'shortenUrlFormTButtonText';
+export const textButtonLoading = 'loading...';
+export const textButtonNormal = 'Shorten';
+
 const styles = StyleSheet.create({
   textInput: {
     borderColor: '#111',
@@ -23,7 +29,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
 const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
   const {isLoading, errorData, addItem} = useBellyApi();
@@ -31,7 +36,7 @@ const UrlShortenerScreen = () => {
   const onPressSubmitButton = useCallback(() => {
     addItem(inputText);
   }, [addItem, inputText]);
-  const buttonText = isLoading ? 'loading...' : 'Shorten';
+  const buttonText = isLoading ? textButtonLoading : textButtonNormal;
 
   useEffect(() => {
     let errorText;
@@ -44,7 +49,7 @@ const UrlShortenerScreen = () => {
           'There was a problem processing your request. Please try again.';
         break;
       case 'invalidUrl':
-        errorText = 'Unable to shorten that link. It is not a valid url.';
+        errorText = `Unable to shorten that link. It is not a valid url. ${inputText}`;
         break;
       default:
         errorText = '';
@@ -62,12 +67,16 @@ const UrlShortenerScreen = () => {
         onSubmitEditing={onPressSubmitButton}
         autoCapitalize="none"
         spellCheck={false}
+        testID={testIDTextInput}
       />
       <TouchableOpacity
         style={styles.submitButton}
         onPress={onPressSubmitButton}
+        testID={testIDButton}
       >
-        <Text style={styles.submitButtonText}>{buttonText}</Text>
+        <Text style={styles.submitButtonText} testID={testIDButtonText}>
+          {buttonText}
+        </Text>
       </TouchableOpacity>
     </>
   );
