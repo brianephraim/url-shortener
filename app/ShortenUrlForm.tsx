@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {TextInput, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {TextInput, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import useBellyApi from './useBelyApi';
 import {ToastContext, ToastContextType} from './Toast';
 
@@ -10,24 +10,37 @@ export const textButtonLoading = 'loading...';
 export const textButtonNormal = 'Shorten';
 export const textInvalidUrl =
   'Unable to shorten that link. It is not a valid url. ';
+
+const buttonStyle = {
+  backgroundColor: '#FF4D4F',
+  borderRadius: 4,
+  borderWidth: 4,
+  borderColor: '#fff',
+  padding: 10,
+};
 const styles = StyleSheet.create({
   textInput: {
-    borderColor: '#111',
+    borderColor: '#CCCCCC',
     borderWidth: 2,
-    borderRadius: 3,
-    paddingHorizontal: 5,
-    paddingVertical: 3,
+    borderRadius: 4,
+    paddingHorizontal: 13,
+    paddingVertical: 13,
     alignSelf: 'stretch',
-    marginHorizontal: 20,
+    backgroundColor: '#fff',
+    fontSize: 20,
+    marginBottom: 20,
   },
-  submitButton: {
-    backgroundColor: 'purple',
-    padding: 10,
-    margin: 20,
+  submitButton: buttonStyle,
+  submitButtonLoading: {
+    ...buttonStyle,
+    backgroundColor: '#666',
+    borderColor: '#666',
   },
   submitButtonText: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 const UrlShortenerScreen = () => {
@@ -70,15 +83,17 @@ const UrlShortenerScreen = () => {
         spellCheck={false}
         testID={testIDTextInput}
       />
-      <TouchableOpacity
-        style={styles.submitButton}
+      <TouchableHighlight
+        activeOpacity={1}
+        underlayColor={isLoading ? '#666' : '#FF2729'}
+        style={isLoading ? styles.submitButtonLoading : styles.submitButton}
         onPress={onPressSubmitButton}
         testID={testIDButton}
       >
         <Text style={styles.submitButtonText} testID={testIDButtonText}>
           {buttonText}
         </Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
     </>
   );
 };

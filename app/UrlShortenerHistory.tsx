@@ -1,8 +1,18 @@
 import React, {useEffect} from 'react';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text} from 'react-native';
 import useBellyApi from './useBelyApi';
 import ShortenedUrlItem from './ShortenedUrlItem';
 
+const styles = StyleSheet.create({
+  activityIndicator: {
+    marginTop: 40,
+  },
+  emptyText: {
+    color: '#000',
+    textAlign: 'center',
+    margin: 40,
+  },
+});
 const UrlShortenerHistory = () => {
   const {shortenedUrls, refreshShortenedUrl} = useBellyApi();
   useEffect(() => {
@@ -26,7 +36,12 @@ const UrlShortenerHistory = () => {
             );
           }
         )}
-      {!shortenedUrls.initialized && <ActivityIndicator color="green" />}
+      {!shortenedUrls.initialized && (
+        <ActivityIndicator color="#FF2729" style={styles.activityIndicator} />
+      )}
+      {shortenedUrls.initialized && !shortenedUrls.data.length && (
+        <Text style={styles.emptyText}>Shorten some URLs!</Text>
+      )}
     </>
   );
 };

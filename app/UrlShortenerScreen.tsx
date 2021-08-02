@@ -1,33 +1,34 @@
 import React, {useRef, useEffect} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import UrlShortenerHistory from './UrlShortenerHistory';
 import ShortenUrlForm from './ShortenUrlForm';
 import useBellyApi from './useBelyApi';
 import DismissKeyboard from './DismissKeyboard';
+import Logo from './Logo';
 
-const bottomGoldenRatioHeightPercent = 61.8;
+// const bottomGoldenRatioHeightPercent = 61.8;
+const bottomGoldenRatioHeightPercent = 70;
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
     flex: 1,
     justifyContent: 'center',
   },
   inputHalf: {
-    backgroundColor: '#ccc',
     justifyContent: 'flex-end',
     height: `${100 - bottomGoldenRatioHeightPercent}%`,
+    margin: 20,
   },
-  logo: {
-    fontSize: 35,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
+
   outputHalf: {
-    backgroundColor: '#bbb',
+    backgroundColor: '#fff',
     height: `${bottomGoldenRatioHeightPercent}%`,
   },
-  allGeneratedUrlsContainer: {
-    backgroundColor: '#999',
+  shortenedUrlsList: {
+    // backgroundColor: '#999',
+  },
+  logoWrap: {
+    flexShrink: 1,
+    marginBottom: 25,
   },
 });
 
@@ -52,7 +53,9 @@ const UrlShortenerScreen = () => {
     <DismissKeyboard style={styles.container}>
       <>
         <View style={styles.inputHalf}>
-          <Text style={styles.logo}>URL Shortener</Text>
+          <View style={styles.logoWrap}>
+            <Logo width="100%" height="100%" />
+          </View>
           <ShortenUrlForm />
         </View>
         <ScrollView
@@ -61,7 +64,7 @@ const UrlShortenerScreen = () => {
           ref={scrollRef}
         >
           <View
-            style={styles.allGeneratedUrlsContainer}
+            style={styles.shortenedUrlsList}
             onStartShouldSetResponder={onStartShouldSetResponder}
           >
             <UrlShortenerHistory />
