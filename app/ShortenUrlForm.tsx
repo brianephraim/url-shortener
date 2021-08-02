@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+const emptyObject = {};
 const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
   const {isLoading, errorData, addItem} = useBellyApi();
@@ -58,6 +59,10 @@ const UrlShortenerScreen = () => {
   useEffect(() => {
     let errorText;
     const {errorType} = errorData;
+    if (!errorType) {
+      setToast(emptyObject);
+      return;
+    }
     switch (errorType) {
       case 'cancel':
         break;
@@ -66,13 +71,13 @@ const UrlShortenerScreen = () => {
           'There was a problem processing your request. Please try again.';
         break;
       case 'invalidUrl':
-        errorText = `${textInvalidUrl}${inputText}`;
+        errorText = `${textInvalidUrl}`;
         break;
       default:
         errorText = '';
     }
     errorText && setToast({text: errorText, isError: true});
-  }, [errorData, setToast, inputText]);
+  }, [errorData, setToast]);
   return (
     <>
       <TextInput
@@ -83,8 +88,12 @@ const UrlShortenerScreen = () => {
         returnKeyType="go"
         onSubmitEditing={onPressSubmitButton}
         autoCapitalize="none"
+        autoCompleteType="off"
+        autoCorrect={false}
         spellCheck={false}
+        clearButtonMode="always"
         testID={testIDTextInput}
+        dataDetectorTypes="link"
       />
       <TouchableHighlight
         activeOpacity={1}

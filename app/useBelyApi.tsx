@@ -140,7 +140,7 @@ async function fetchBely(purpose: string, param?: string) {
 const emptyObj = {};
 const useBellyApi: () => BellyApiObj = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorData, setErrorData] = useState(emptyObj);
+  const [errorData, setErrorData] = useState<ErrorData>(emptyObj);
   const dispatch = useDispatch();
   const shortenedUrls = useSelector(shortenedUrlsSelector);
   const removeItem = useCallback(
@@ -162,6 +162,9 @@ const useBellyApi: () => BellyApiObj = () => {
       }
       if (!isUrl(url)) {
         return setErrorData({errorType: 'invalidUrl'});
+      }
+      if (errorData.errorType) {
+        setErrorData(emptyObj);
       }
       const preExistingShortenedUrl = shortenedUrls.data.find(
         ({url: oldUrl}) => url === oldUrl
@@ -202,7 +205,7 @@ const useBellyApi: () => BellyApiObj = () => {
       }
       return null;
     },
-    [dispatch, shortenedUrls]
+    [dispatch, shortenedUrls, errorData]
   );
 
   const refreshShortenedUrl = useCallback(async () => {
