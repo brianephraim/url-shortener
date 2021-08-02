@@ -41,9 +41,10 @@ export const toastEntireTime =
   toastDurationTime + toastDelayTime + toastDurationTime + 1;
 
 const containerStyle = {
-  backgroundColor: 'yellow',
+  backgroundColor: '#ccc',
   minWidth: 200,
   padding: 15,
+  borderRadius: 10,
 };
 
 const ToastContext = React.createContext({});
