@@ -80,7 +80,11 @@ const ShortenedUrlItem: React.FC<Props> = ({
     setToast({text: `copied: ${shortUrl}`});
   };
   return (
-    <View style={containerStyle.container} key={shortUrl}>
+    <View
+      style={containerStyle.container}
+      key={shortUrl}
+      testID="ShortenedUrlItem"
+    >
       <View style={styles.textSection}>
         <Text style={styles.allGeneratedUrlsShortUrl}>SHORT: {shortUrl}</Text>
         <Text style={styles.allGeneratedUrlsLongUrl}>LONG: {longUrl}</Text>
