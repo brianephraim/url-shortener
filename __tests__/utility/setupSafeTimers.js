@@ -1,7 +1,11 @@
 import MockDate from 'mockdate';
-import {act} from 'react-test-renderer';
 
-const FRAME_TIME = 10;
+const originalSetTimeout = setTimeout;
+export function detectFakeTimers() {
+  return setTimeout !== originalSetTimeout;
+}
+
+export const FRAME_TIME = 10;
 
 global.requestAnimationFrame = cb => {
   setTimeout(cb, FRAME_TIME);
@@ -25,21 +29,28 @@ export const timeTravel = (msToAdvance = FRAME_TIME) => {
   }
 };
 
-const setupTimeTravel = () => {
-  beforeEach(() => {
+function setupSafeTimers() {
+  beforeAll(() => {
     jest.spyOn(global.console, 'warn').mockImplementationOnce(message => {
       if (!message.includes('useNativeDriver')) {
         global.console.warn(message);
       }
     });
+  });
+  beforeEach(() => {
     MockDate.set(0);
     jest.useFakeTimers('legacy');
+    global.requestAnimationFrame = cb => {
+      setTimeout(cb, FRAME_TIME);
+    };
+    global.cancelAnimationFrame = () => null;
   });
   afterEach(async () => {
-    await act(async () => {
-      jest.runAllTimers();
-    });
+    if (detectFakeTimers()) {
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers('legacy');
+    }
   });
-};
+}
 
-export default setupTimeTravel;
+export default setupSafeTimers;

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   Animated,
   View,
@@ -12,6 +12,11 @@ import {
 interface ToastData {
   text?: string;
   isError?: boolean;
+}
+
+interface ToastDataComparable {
+  current: ToastData | null;
+  prev: ToastData | null;
 }
 
 export type ToastContextType = (toastData: ToastData) => void;
@@ -29,6 +34,7 @@ interface Props {
   children?: JSX.Element;
 }
 
+export const testIDToastText = 'testIDToastText';
 export const toastDelayTime = 3000;
 export const toastDurationTime = 300;
 export const toastEntireTime =
@@ -67,16 +73,26 @@ const styles = StyleSheet.create<Style>({
 
 const Toast: React.FC<Props> = ({children}) => {
   const animRef = useRef<Animated.CompositeAnimation | null>();
-  const [toastData, setToast] = useState<ToastData | null>(null);
+  const [toastDatComparable, setToastComparable] =
+    useState<ToastDataComparable>({current: null, prev: null});
   const [animationStyle] = useState<(ViewStyle | OpacityStyle)[]>([
     styles.positioner,
     {opacity: new Animated.Value(0)},
   ]);
-  const [lastToastDataState, setLastToastDataState] =
-    useState<ToastData | null>(null);
+  const setToast = useCallback(
+    data => {
+      setToastComparable({
+        current: data,
+        prev: null,
+      });
+    },
+    [setToastComparable]
+  );
+
+  const toastData = toastDatComparable.current || {};
   const {text, isError} = toastData || {};
   useEffect(() => {
-    if (lastToastDataState === toastData) {
+    if (toastDatComparable.current === toastDatComparable.prev) {
       return;
     }
     if (animRef.current) {
@@ -84,11 +100,13 @@ const Toast: React.FC<Props> = ({children}) => {
       animationStyle[1].opacity.setValue(0);
       animRef.current = null;
     }
-    if (!toastData || !toastData.text) {
+    if (!toastDatComparable.current || !toastDatComparable.current.text) {
       return;
     }
-
-    setLastToastDataState(toastData);
+    setToastComparable({
+      current: toastDatComparable.current,
+      prev: toastDatComparable.current,
+    });
     animRef.current = Animated.timing(animationStyle[1].opacity, {
       toValue: 1,
       duration: toastDurationTime,
@@ -108,10 +126,18 @@ const Toast: React.FC<Props> = ({children}) => {
           duration: toastDurationTime,
           useNativeDriver: true,
         });
-        animRef.current.start();
+        animRef.current.start(({finished: finished2}) => {
+          if (finished2) {
+            animRef.current = undefined;
+            setToastComparable({
+              current: null,
+              prev: null,
+            });
+          }
+        });
       }
     });
-  }, [animRef, lastToastDataState, toastData, animationStyle]);
+  }, [animRef, animationStyle, toastDatComparable, setToastComparable]);
 
   useEffect(() => {
     // only running this cleanup on unmount
@@ -123,7 +149,7 @@ const Toast: React.FC<Props> = ({children}) => {
   }, []);
 
   let hasToastElements = true;
-  if (!lastToastDataState) {
+  if (!toastDatComparable.prev) {
     hasToastElements = false;
   }
   if (!children) {
@@ -135,7 +161,7 @@ const Toast: React.FC<Props> = ({children}) => {
         {hasToastElements && (
           <Animated.View style={animationStyle}>
             <View style={isError ? styles.errorContainer : styles.container}>
-              <Text style={styles.text} testID="toastID">
+              <Text style={styles.text} testID={testIDToastText}>
                 {text}
               </Text>
             </View>

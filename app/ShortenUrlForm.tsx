@@ -8,7 +8,8 @@ export const testIDButton = 'shortenUrlFormTButton';
 export const testIDButtonText = 'shortenUrlFormTButtonText';
 export const textButtonLoading = 'loading...';
 export const textButtonNormal = 'Shorten';
-
+export const textInvalidUrl =
+  'Unable to shorten that link. It is not a valid url. ';
 const styles = StyleSheet.create({
   textInput: {
     borderColor: '#111',
@@ -49,13 +50,13 @@ const UrlShortenerScreen = () => {
           'There was a problem processing your request. Please try again.';
         break;
       case 'invalidUrl':
-        errorText = `Unable to shorten that link. It is not a valid url. ${inputText}`;
+        errorText = `${textInvalidUrl}${inputText}`;
         break;
       default:
         errorText = '';
     }
     errorText && setToast({text: errorText, isError: true});
-  }, [errorData, setToast]);
+  }, [errorData, setToast, inputText]);
   return (
     <>
       <TextInput

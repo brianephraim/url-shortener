@@ -1,13 +1,15 @@
 import fetchMock from 'fetch-mock';
 import 'whatwg-fetch';
+
 import {mockGet, mockPost, mockDelete} from './fixtures';
+import setupSafeTimers from './setupSafeTimers';
 
 const belyApiTestPrep = () => {
+  setupSafeTimers();
   beforeAll(() => {
     global.fetch = fetch;
   });
   beforeEach(() => {
-    jest.useFakeTimers('legacy');
     fetchMock.mock(mockGet.url, mockGet.response, {
       method: mockGet.method,
     });
@@ -19,10 +21,8 @@ const belyApiTestPrep = () => {
       method: mockDelete.method,
     });
   });
-  //
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers('legacy');
+  // //
+  afterEach(async () => {
     fetchMock.restore();
   });
 };

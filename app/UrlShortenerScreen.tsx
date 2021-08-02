@@ -1,6 +1,5 @@
 import React, {useRef, useEffect} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
-import Toast from './Toast';
 import UrlShortenerHistory from './UrlShortenerHistory';
 import ShortenUrlForm from './ShortenUrlForm';
 import useBellyApi from './useBelyApi';

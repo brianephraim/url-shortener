@@ -115,33 +115,26 @@ function delay(time = 1000) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 async function fetchBely(purpose: string, param?: string) {
-  try {
-    const method = purposeToFetchMethodMap[purpose];
-    const paramPath = param && method !== 'POST' ? `/${param}` : '';
-    const belyApiPath = 'https://api.bely.me/links';
-    const fetchUrl = `${belyApiPath}${paramPath}`;
-    const result = await fetch(fetchUrl, {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'GB-Access-Token': '8d1a453fe3d93b9f7eabbeed18645d8c',
-      },
-      ...(method !== 'POST'
-        ? {}
-        : {
-            body: JSON.stringify({
-              url: param,
-            }),
+  const method = purposeToFetchMethodMap[purpose];
+  const paramPath = param && method !== 'POST' ? `/${param}` : '';
+  const belyApiPath = 'https://api.bely.me/links';
+  const fetchUrl = `${belyApiPath}${paramPath}`;
+  const result = await fetch(fetchUrl, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'GB-Access-Token': '8d1a453fe3d93b9f7eabbeed18645d8c',
+    },
+    ...(method !== 'POST'
+      ? {}
+      : {
+          body: JSON.stringify({
+            url: param,
           }),
-    }).then(r => (purpose === 'remove' ? r : r.json()));
-    return result;
-  } catch (error) {
-    /* eslint-disable no-console */
-    console.warn('fetchBely error', purpose, param, error);
-    /* eslint-enable no-console */
-    throw error;
-  }
+        }),
+  }).then(r => (purpose === 'remove' ? r : r.json()));
+  return result;
 }
 
 const emptyObj = {};
