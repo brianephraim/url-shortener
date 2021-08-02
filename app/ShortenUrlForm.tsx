@@ -48,8 +48,11 @@ const UrlShortenerScreen = () => {
   const {isLoading, errorData, addItem} = useBellyApi();
   const setToast = React.useContext(ToastContext) as ToastContextType;
   const onPressSubmitButton = useCallback(() => {
+    if (isLoading) {
+      return;
+    }
     addItem(inputText);
-  }, [addItem, inputText]);
+  }, [addItem, inputText, isLoading]);
   const buttonText = isLoading ? textButtonLoading : textButtonNormal;
 
   useEffect(() => {
