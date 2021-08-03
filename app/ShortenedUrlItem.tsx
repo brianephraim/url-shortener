@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle,
   TouchableHighlight,
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
@@ -32,15 +31,6 @@ function assignFunColor() {
   return next;
 }
 
-const buttonStyle: ViewStyle = {
-  width: 30,
-  height: 30,
-  padding: 4,
-  borderRadius: 4,
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
@@ -51,13 +41,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     overflow: 'hidden',
   },
-  shortUrlSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
+
   clipboardButton: {
-    ...buttonStyle,
+    width: 30,
+    height: 30,
+    padding: 4,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FF4D4F',
     borderColor: '#FFFFFF',
     borderWidth: 2,
@@ -74,9 +65,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flexShrink: 1,
   },
-  buttonGhost: buttonStyle,
+  shortUrlSection: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    // flexWrap: 'wrap-reverse'
+  },
   shortenedUrl: {
-    fontSize: 25,
+    fontSize: 20,
     textAlign: 'center',
     flexShrink: 1,
   },
@@ -132,8 +128,6 @@ const ShortenedUrlItem: React.FC<Props> = ({
       testID="ShortenedUrlItem"
     >
       <View style={styles.shortUrlSection}>
-        <View style={styles.buttonGhost} />
-        <Text style={styles.shortenedUrl}>{shortUrl}</Text>
         <TouchableHighlight
           style={styles.clipboardButton}
           onPress={onPressClipboard}
@@ -142,6 +136,8 @@ const ShortenedUrlItem: React.FC<Props> = ({
         >
           <IconCopy width="100%" height="100%" fill="#FFFFFF" />
         </TouchableHighlight>
+        <Text style={styles.shortenedUrl}>{shortUrl}</Text>
+        <View />
       </View>
       <View style={styles.longUrlSection}>
         <TouchableOpacity

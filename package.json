@@ -9,7 +9,8 @@
     "pod": "(cd ios && pod deintegrate && pod install)",
     "prettier": "./node_modules/.bin/prettier --single-quote --trailing-comma es5 --write \"(app|__tests__)/**/*.(js|tsx)\"",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "iphonese": "react-native run-ios --simulator=\"iPhone SE\""
   },
   "dependencies": {
     "@react-native-community/clipboard": "^1.5.1",

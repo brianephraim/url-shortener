@@ -7,7 +7,7 @@ import DismissKeyboard from './DismissKeyboard';
 import Logo from './Logo';
 
 // const bottomGoldenRatioHeightPercent = 61.8;
-const bottomGoldenRatioHeightPercent = 70;
+const bottomGoldenRatioHeightPercent = 60;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
