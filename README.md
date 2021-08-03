@@ -20,6 +20,12 @@ Run:
 
 `yarn pod`
 
+Create a file at the root level of this directoy called `gbToken.js`.  This file is ignored by git for security. Make the content of this file the following (use your GB-Access-Token):
+
+`export default 'replace-this-with-your-GB-Acess-Token';`
+
+Now you can start the app.
+
 `yarn ios` or `yarn android`
 
 ## Unit tests

@@ -1,6 +1,7 @@
 import {useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {registerReducer} from './reduxSetup';
+import gbToken from '../gbToken';
 
 export interface ShortenedUrlsData {
   short_url: string;
@@ -124,7 +125,7 @@ async function fetchBely(purpose: string, param?: string) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'GB-Access-Token': '8d1a453fe3d93b9f7eabbeed18645d8c',
+      'GB-Access-Token': gbToken,
     },
     ...(method !== 'POST'
       ? {}
