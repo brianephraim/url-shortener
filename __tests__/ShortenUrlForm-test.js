@@ -53,7 +53,7 @@ describe('ShortenedUrlForm', () => {
       fireEvent.press(getByTestId(testIDButton));
       expect(queryByTestId(testIDToastText)).toBeTruthy();
       expect(getByTestId(testIDToastText).props.children).toEqual(
-        `${textInvalidUrl}${someInvalidUrl}`
+        textInvalidUrl
       );
       await act(async () => {
         timeTravel(toastEntireTime);
