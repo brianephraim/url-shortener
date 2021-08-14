@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1CE11AB2097DB5CF86FDC2CF /* libPods-UrlShortener.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C84C04E148765283C145072 /* libPods-UrlShortener.a */; };
-		74B1C3672E445D108C2DCD0E /* libPods-UrlShortener-UrlShortenerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 993A4B415E2BF58035CE177C /* libPods-UrlShortener-UrlShortenerTests.a */; };
+		4739C2B8A6F8B3184EE462B2 /* libPods-UrlShortener.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4049FFC9063AF1E209D3A7D /* libPods-UrlShortener.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		84270A2FEFA535E6C6C0AA63 /* libPods-UrlShortener-UrlShortenerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1A3E9DB9928669061607CA /* libPods-UrlShortener-UrlShortenerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,20 +30,20 @@
 		00E356EE1AD99517003FC87E /* UrlShortenerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UrlShortenerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* UrlShortenerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UrlShortenerTests.m; sourceTree = "<group>"; };
-		1356E434CD8250EFCABAA551 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener-UrlShortenerTests.release.xcconfig"; path = "Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests.release.xcconfig"; sourceTree = "<group>"; };
+		0C1A3E9DB9928669061607CA /* libPods-UrlShortener-UrlShortenerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrlShortener-UrlShortenerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* UrlShortener.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UrlShortener.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = UrlShortener/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = UrlShortener/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = UrlShortener/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UrlShortener/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = UrlShortener/main.m; sourceTree = "<group>"; };
-		1E73A8D6ADB70AFE212B391F /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener-UrlShortenerTests.debug.xcconfig"; path = "Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4C84C04E148765283C145072 /* libPods-UrlShortener.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrlShortener.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		670AE1EB8B2E61D9B00EB778 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener-UrlShortenerTests.release.xcconfig"; path = "Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = UrlShortener/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		993A4B415E2BF58035CE177C /* libPods-UrlShortener-UrlShortenerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrlShortener-UrlShortenerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD36269EE97270647DAC45F6 /* Pods-UrlShortener.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener.release.xcconfig"; path = "Target Support Files/Pods-UrlShortener/Pods-UrlShortener.release.xcconfig"; sourceTree = "<group>"; };
-		DF43720150C47E45FDA7D2D6 /* Pods-UrlShortener.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener.debug.xcconfig"; path = "Target Support Files/Pods-UrlShortener/Pods-UrlShortener.debug.xcconfig"; sourceTree = "<group>"; };
+		A1FB9BCB7ECE82E2025C3882 /* Pods-UrlShortener.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener.debug.xcconfig"; path = "Target Support Files/Pods-UrlShortener/Pods-UrlShortener.debug.xcconfig"; sourceTree = "<group>"; };
+		A4049FFC9063AF1E209D3A7D /* libPods-UrlShortener.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrlShortener.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8C37C197ABB7F9BD03BC838 /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener-UrlShortenerTests.debug.xcconfig"; path = "Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EEA2DAA53D699F6CC2261BD9 /* Pods-UrlShortener.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrlShortener.release.xcconfig"; path = "Target Support Files/Pods-UrlShortener/Pods-UrlShortener.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74B1C3672E445D108C2DCD0E /* libPods-UrlShortener-UrlShortenerTests.a in Frameworks */,
+				84270A2FEFA535E6C6C0AA63 /* libPods-UrlShortener-UrlShortenerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CE11AB2097DB5CF86FDC2CF /* libPods-UrlShortener.a in Frameworks */,
+				4739C2B8A6F8B3184EE462B2 /* libPods-UrlShortener.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,10 +100,22 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4C84C04E148765283C145072 /* libPods-UrlShortener.a */,
-				993A4B415E2BF58035CE177C /* libPods-UrlShortener-UrlShortenerTests.a */,
+				A4049FFC9063AF1E209D3A7D /* libPods-UrlShortener.a */,
+				0C1A3E9DB9928669061607CA /* libPods-UrlShortener-UrlShortenerTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E463B92CF44E013250FD661 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A1FB9BCB7ECE82E2025C3882 /* Pods-UrlShortener.debug.xcconfig */,
+				EEA2DAA53D699F6CC2261BD9 /* Pods-UrlShortener.release.xcconfig */,
+				B8C37C197ABB7F9BD03BC838 /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */,
+				670AE1EB8B2E61D9B00EB778 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -121,7 +133,7 @@
 				00E356EF1AD99517003FC87E /* UrlShortenerTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				BDB139218B8AF6590702F10F /* Pods */,
+				7E463B92CF44E013250FD661 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -137,18 +149,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BDB139218B8AF6590702F10F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DF43720150C47E45FDA7D2D6 /* Pods-UrlShortener.debug.xcconfig */,
-				DD36269EE97270647DAC45F6 /* Pods-UrlShortener.release.xcconfig */,
-				1E73A8D6ADB70AFE212B391F /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */,
-				1356E434CD8250EFCABAA551 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -156,12 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "UrlShortenerTests" */;
 			buildPhases = (
-				6D8A2C1E23FD0023CB3203B2 /* [CP] Check Pods Manifest.lock */,
+				664FEF7E933D37A2861E8613 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				025F01BB50F79810F0A5617B /* [CP] Embed Pods Frameworks */,
-				D8DCA72C1D135FA2232E76DC /* [CP] Copy Pods Resources */,
+				7AEB9344BDEEE35E8FFFEC33 /* [CP] Embed Pods Frameworks */,
+				866649DC6A804BC1D9F92B7C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,14 +177,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "UrlShortener" */;
 			buildPhases = (
-				3D80CE836D596DD804F008AD /* [CP] Check Pods Manifest.lock */,
+				9D8665DA55DD0449BEA03B9E /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E27F763A3AB189743712D0DB /* [CP] Embed Pods Frameworks */,
-				94C281A174787A7C512FE8C2 /* [CP] Copy Pods Resources */,
+				B48B276D3E0EA3F8943232A0 /* [CP] Embed Pods Frameworks */,
+				AD1F088BB4CC7C3A47F3114D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -265,46 +265,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		025F01BB50F79810F0A5617B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3D80CE836D596DD804F008AD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UrlShortener-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6D8A2C1E23FD0023CB3203B2 /* [CP] Check Pods Manifest.lock */ = {
+		664FEF7E933D37A2861E8613 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -326,24 +287,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		94C281A174787A7C512FE8C2 /* [CP] Copy Pods Resources */ = {
+		7AEB9344BDEEE35E8FFFEC33 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8DCA72C1D135FA2232E76DC /* [CP] Copy Pods Resources */ = {
+		866649DC6A804BC1D9F92B7C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -360,7 +321,46 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrlShortener-UrlShortenerTests/Pods-UrlShortener-UrlShortenerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E27F763A3AB189743712D0DB /* [CP] Embed Pods Frameworks */ = {
+		9D8665DA55DD0449BEA03B9E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UrlShortener-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD1F088BB4CC7C3A47F3114D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UrlShortener/Pods-UrlShortener-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B48B276D3E0EA3F8943232A0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -429,7 +429,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E73A8D6ADB70AFE212B391F /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */;
+			baseConfigurationReference = B8C37C197ABB7F9BD03BC838 /* Pods-UrlShortener-UrlShortenerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -456,7 +456,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1356E434CD8250EFCABAA551 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */;
+			baseConfigurationReference = 670AE1EB8B2E61D9B00EB778 /* Pods-UrlShortener-UrlShortenerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -480,7 +480,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF43720150C47E45FDA7D2D6 /* Pods-UrlShortener.debug.xcconfig */;
+			baseConfigurationReference = A1FB9BCB7ECE82E2025C3882 /* Pods-UrlShortener.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -506,7 +506,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD36269EE97270647DAC45F6 /* Pods-UrlShortener.release.xcconfig */;
+			baseConfigurationReference = EEA2DAA53D699F6CC2261BD9 /* Pods-UrlShortener.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

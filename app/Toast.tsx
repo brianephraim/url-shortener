@@ -26,8 +26,7 @@ interface Style {
 }
 
 interface OpacityStyle {
-  // `any` because typescript hates `animationStyle[1].opacity.setValue(0);`
-  opacity: Animated.Value | any;
+  opacity: Animated.Value;
 }
 
 interface Props {
@@ -76,10 +75,8 @@ const Toast: React.FC<Props> = ({children}) => {
   const animRef = useRef<Animated.CompositeAnimation | null>();
   const [toastDatComparable, setToastComparable] =
     useState<ToastDataComparable>({current: null, prev: null});
-  const [animationStyle] = useState<(ViewStyle | OpacityStyle)[]>([
-    styles.positioner,
-    {opacity: new Animated.Value(0)},
-  ]);
+  const opacityStyle = useRef<OpacityStyle>({opacity: new Animated.Value(0)});
+  const animationStyle = useRef([styles.positioner, opacityStyle.current]);
   const setToast = useCallback(
     data => {
       setToastComparable({
@@ -98,7 +95,7 @@ const Toast: React.FC<Props> = ({children}) => {
     }
     if (animRef.current) {
       animRef.current.stop();
-      animationStyle[1].opacity.setValue(0);
+      opacityStyle.current.opacity.setValue(0);
       animRef.current = null;
     }
     if (!toastDatComparable.current || !toastDatComparable.current.text) {
@@ -108,7 +105,7 @@ const Toast: React.FC<Props> = ({children}) => {
       current: toastDatComparable.current,
       prev: toastDatComparable.current,
     });
-    animRef.current = Animated.timing(animationStyle[1].opacity, {
+    animRef.current = Animated.timing(opacityStyle.current.opacity, {
       toValue: 1,
       duration: toastDurationTime,
       useNativeDriver: true,
@@ -121,7 +118,7 @@ const Toast: React.FC<Props> = ({children}) => {
         return;
       }
       if (animRef.current) {
-        animRef.current = Animated.timing(animationStyle[1].opacity, {
+        animRef.current = Animated.timing(opacityStyle.current.opacity, {
           toValue: 0,
           delay: toastDelayTime,
           duration: toastDurationTime,
@@ -160,7 +157,7 @@ const Toast: React.FC<Props> = ({children}) => {
     <SafeAreaView style={styles.safeAreaView}>
       <Provider value={setToast}>
         {hasToastElements && (
-          <Animated.View style={animationStyle}>
+          <Animated.View style={animationStyle.current}>
             <View style={isError ? styles.errorContainer : styles.container}>
               <Text style={styles.text} testID={testIDToastText}>
                 {text}

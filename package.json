@@ -10,7 +10,8 @@
     "prettier": "./node_modules/.bin/prettier --single-quote --trailing-comma es5 --write \"(app|__tests__)/**/*.(js|tsx)\"",
     "start": "react-native start",
     "test": "jest",
-    "iphonese": "react-native run-ios --simulator=\"iPhone SE\""
+    "iphonese": "react-native run-ios --simulator=\"iPhone SE\"",
+    "iphone11": "react-native run-ios --simulator=\"iPhone 11\""
   },
   "dependencies": {
     "@react-native-community/clipboard": "^1.5.1",
