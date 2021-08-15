@@ -6,7 +6,6 @@
     "react-native/no-unused-styles": 2,
     "react-native/no-inline-styles": 2,
     "react/jsx-filename-extension": 0,
-    "react-perf/jsx-no-new-function-as-prop": 0,
     "arrow-body-style": 0,
     "react/prop-types": 0,
     "no-unused-expressions": 0,
@@ -36,7 +35,7 @@
     "node": true,
     "react-native/react-native": true
   },
-  settings: {
+  "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },

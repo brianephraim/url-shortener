@@ -117,10 +117,12 @@ const ShortenedUrlItem: React.FC<Props> = ({
   const onPressRemove = useCallback(async () => {
     removeItem(slug);
   }, [removeItem, slug]);
-  const onPressClipboard = () => {
+
+  const onPressClipboard = useCallback(() => {
     Clipboard.setString(shortUrl);
     setToast({text: `copied: ${shortUrl}`});
-  };
+  },[setToast,shortUrl]);
+
   return (
     <View
       style={highlighted ? styles.container : funColorContainerStyle.current}
