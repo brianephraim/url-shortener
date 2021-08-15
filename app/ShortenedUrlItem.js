@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import useBellyApi from './useBelyApi';
-import {ToastContext, ToastContextType} from './Toast';
+import {ToastContext} from './Toast';
 import IconTrash from './IconTrash';
 import IconCopy from './IconCopy';
 
@@ -91,19 +91,7 @@ const styles = StyleSheet.create({
 /* eslint-disable react-native/no-unused-styles */
 
 /* eslint-enable react-native/no-unused-styles */
-interface Props {
-  shortUrl: string;
-  longUrl: string;
-  slug: string;
-  highlighted?: boolean;
-}
-
-const ShortenedUrlItem: React.FC<Props> = ({
-  shortUrl,
-  longUrl,
-  slug,
-  highlighted,
-}) => {
+const ShortenedUrlItem = ({shortUrl, longUrl, slug, highlighted}) => {
   const funColorContainerStyle = useRef([
     styles.container,
     {
@@ -112,7 +100,7 @@ const ShortenedUrlItem: React.FC<Props> = ({
       padding: 20,
     },
   ]);
-  const setToast = React.useContext(ToastContext) as ToastContextType;
+  const setToast = React.useContext(ToastContext);
   const {removeItem} = useBellyApi();
   const onPressRemove = useCallback(async () => {
     removeItem(slug);
@@ -121,7 +109,7 @@ const ShortenedUrlItem: React.FC<Props> = ({
   const onPressClipboard = useCallback(() => {
     Clipboard.setString(shortUrl);
     setToast({text: `copied: ${shortUrl}`});
-  },[setToast,shortUrl]);
+  }, [setToast, shortUrl]);
 
   return (
     <View

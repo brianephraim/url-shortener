@@ -4,10 +4,6 @@ import UrlShortenerScreen from './UrlShortenerScreen';
 import {ReduxProvider} from './reduxSetup';
 import Toast from './Toast';
 
-interface Props {
-  children?: JSX.Element;
-}
-
 const styles = StyleSheet.create({
   safeAreaView: {
     backgroundColor: '#00AAD2',
@@ -22,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppEntry: React.FC<Props> = ({children}) => (
+const AppEntry = ({children}) => (
   <ReduxProvider>
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.bottomSafeAreaColor} />

@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {TextInput, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import useBellyApi from './useBelyApi';
-import {ToastContext, ToastContextType} from './Toast';
+import {ToastContext} from './Toast';
 
 export const testIDTextInput = 'shortenUrlFormTextInput';
 export const testIDButton = 'shortenUrlFormTButton';
@@ -47,7 +47,7 @@ const emptyObject = {};
 const UrlShortenerScreen = () => {
   const [inputText, setInputText] = useState('');
   const {isLoading, errorData, addItem} = useBellyApi();
-  const setToast = React.useContext(ToastContext) as ToastContextType;
+  const setToast = React.useContext(ToastContext);
   const onPressSubmitButton = useCallback(() => {
     if (isLoading) {
       return;

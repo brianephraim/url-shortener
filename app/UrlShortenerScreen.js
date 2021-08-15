@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
 const onStartShouldSetResponder = () => true;
 const UrlShortenerScreen = () => {
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef(null);
   const {shortenedUrls} = useBellyApi();
   const mostRecentlyAdded =
     shortenedUrls.data[shortenedUrls.data.length - 1] || {};

@@ -3,35 +3,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {registerReducer} from './reduxSetup';
 import gbToken from '../gbToken';
 
-export interface ShortenedUrlsData {
-  short_url: string;
-  url: string;
-  slug: string;
-  added: number;
-}
-export interface ShortenedUrls {
-  data: ShortenedUrlsData[];
-  initialized: boolean;
-}
-interface ErrorData {
-  errorType?: string;
-}
-interface BellyApiObj {
-  isLoading: boolean;
-  errorData: ErrorData;
-  refreshShortenedUrl: () => void;
-  shortenedUrls: ShortenedUrls;
-  addItem: (url: string) => void;
-  removeItem: (url: string) => void;
-}
-
 export const addItemDelayTime = 1000;
 export const refreshDelayTime = 2000;
 /* eslint-disable no-useless-escape */
 const validateUrlExpression =
   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 /* eslint-enable no-useless-escape */
-const isUrl = (url: string) => !!url.match(validateUrlExpression);
+const isUrl = url => !!url.match(validateUrlExpression);
 const stateDefault = {
   initialized: false,
   data: [],
@@ -39,7 +17,7 @@ const stateDefault = {
 };
 
 const mergeArraysRemovingUrlDupesFromSecond = (
-  arrayToPreserve: ShortenedUrlsData[] = [],
+  arrayToPreserve = [],
   arrayToRemoveDupesFrom = []
 ) => {
   return [
@@ -52,7 +30,7 @@ const mergeArraysRemovingUrlDupesFromSecond = (
 };
 
 registerReducer({
-  shortenedUrls: (state: ShortenedUrls = stateDefault, action) => {
+  shortenedUrls: (state = stateDefault, action) => {
     const now = Date.now();
     switch (action.type) {
       case 'REFRESH_SUCCESS':
@@ -94,18 +72,11 @@ registerReducer({
   },
 });
 
-interface StoreWithShortenedUrls {
-  shortenedUrls: ShortenedUrls;
-}
-
-const shortenedUrlsSelector = ({shortenedUrls}: StoreWithShortenedUrls) => {
+const shortenedUrlsSelector = ({shortenedUrls}) => {
   return shortenedUrls;
 };
 
-interface PurposeToFetchMethodMap {
-  [key: string]: string;
-}
-const purposeToFetchMethodMap: PurposeToFetchMethodMap = {
+const purposeToFetchMethodMap = {
   shorten: 'POST',
   refresh: 'GET',
   showSpecific: 'GET',
@@ -115,7 +86,7 @@ const purposeToFetchMethodMap: PurposeToFetchMethodMap = {
 function delay(time = 1000) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
-async function fetchBely(purpose: string, param?: string) {
+async function fetchBely(purpose, param) {
   const method = purposeToFetchMethodMap[purpose];
   const paramPath = param && method !== 'POST' ? `/${param}` : '';
   const belyApiPath = 'https://api.bely.me/links';
@@ -139,9 +110,9 @@ async function fetchBely(purpose: string, param?: string) {
 }
 
 const emptyObj = {};
-const useBellyApi: () => BellyApiObj = () => {
+const useBellyApi = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorData, setErrorData] = useState<ErrorData>(emptyObj);
+  const [errorData, setErrorData] = useState(emptyObj);
   const dispatch = useDispatch();
   const shortenedUrls = useSelector(shortenedUrlsSelector);
   const removeItem = useCallback(

@@ -23,19 +23,17 @@ const UrlShortenerHistory = () => {
       {shortenedUrls.data
         .slice()
         .reverse()
-        .map(
-          ({short_url: shortUrl, url: longUrl, slug, added}, index: number) => {
-            return (
-              <ShortenedUrlItem
-                key={shortUrl}
-                shortUrl={shortUrl}
-                longUrl={longUrl}
-                slug={slug}
-                highlighted={index === 0 && !!added}
-              />
-            );
-          }
-        )}
+        .map(({short_url: shortUrl, url: longUrl, slug, added}, index) => {
+          return (
+            <ShortenedUrlItem
+              key={shortUrl}
+              shortUrl={shortUrl}
+              longUrl={longUrl}
+              slug={slug}
+              highlighted={index === 0 && !!added}
+            />
+          );
+        })}
       {!shortenedUrls.initialized && (
         <ActivityIndicator color="#FF2729" style={styles.activityIndicator} />
       )}

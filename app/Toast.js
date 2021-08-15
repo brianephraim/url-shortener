@@ -1,37 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import {
-  Animated,
-  View,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  SafeAreaView,
-} from 'react-native';
-
-interface ToastData {
-  text?: string;
-  isError?: boolean;
-}
-
-interface ToastDataComparable {
-  current: ToastData | null;
-  prev: ToastData | null;
-}
-
-export type ToastContextType = (toastData: ToastData) => void;
-
-interface Style {
-  [styleName: string]: ViewStyle | TextStyle;
-}
-
-interface OpacityStyle {
-  opacity: Animated.Value;
-}
-
-interface Props {
-  children?: JSX.Element;
-}
+import {Animated, View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 export const testIDToastText = 'testIDToastText';
 export const toastDelayTime = 3000;
@@ -50,7 +18,7 @@ const ToastContext = React.createContext({});
 const {Provider} = ToastContext;
 export {ToastContext};
 
-const styles = StyleSheet.create<Style>({
+const styles = StyleSheet.create({
   safeAreaView: {flex: 1},
   positioner: {
     position: 'absolute',
@@ -71,11 +39,13 @@ const styles = StyleSheet.create<Style>({
   },
 });
 
-const Toast: React.FC<Props> = ({children}) => {
-  const animRef = useRef<Animated.CompositeAnimation | null>();
-  const [toastDatComparable, setToastComparable] =
-    useState<ToastDataComparable>({current: null, prev: null});
-  const opacityStyle = useRef<OpacityStyle>({opacity: new Animated.Value(0)});
+const Toast = ({children}) => {
+  const animRef = useRef();
+  const [toastDatComparable, setToastComparable] = useState({
+    current: null,
+    prev: null,
+  });
+  const opacityStyle = useRef({opacity: new Animated.Value(0)});
   const animationStyle = useRef([styles.positioner, opacityStyle.current]);
   const setToast = useCallback(
     data => {
